@@ -17,10 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 public class MainController implements Initializable {
 	private final String BUBBLE = "Bubble sort";
@@ -59,7 +55,10 @@ public class MainController implements Initializable {
 	private int arraySize = 50;
 	private int delayTime = 0;
 
-	// ----handlers------------------------------------
+	private MainService service = new MainService();
+
+	// ----HANDLERS------------------------------------
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// init delaytime
@@ -80,7 +79,7 @@ public class MainController implements Initializable {
 		graphTypesBox.getSelectionModel().selectFirst();
 
 		this.curGraphType = graphTypesBox.getValue();
-		generate();
+		service.generate(mainPane, arraySize, curGraphType);
 	}
 
 	public void algorithmsBoxChange(ActionEvent e) {
@@ -91,67 +90,19 @@ public class MainController implements Initializable {
 	public void graphTypesBoxChange(ActionEvent e) {
 		this.curGraphType = graphTypesBox.getValue();
 		mainPane.getChildren().clear();
-		generate();
+		service.generate(mainPane, arraySize, curGraphType);
 	}
 
 	public void resetButtonClick(ActionEvent e) {
 		mainPane.getChildren().clear();
-		generate();
+		service.generate(mainPane, arraySize, curGraphType);
 	}
-	
+
 	public void creditButtonClick(ActionEvent e) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Credit");
 		alert.setHeaderText("JavaFX OOLT Project 6: Sorting Algorithms Visualization");
 		alert.setContentText("Tran Le Hoang - 20176764\nTran Hai Son - 2017xxxx\nHoang Tuan Anh - 2017xxxx");
 		alert.show();
-
 	}
-
-	// ----utils------------------------------------------------
-
-	public void generate() {
-		if (curGraphType == "Bar graphs")
-			generateRectangle();
-		else
-			generateCircle();
-	}
-
-	public void generateRectangle() {
-		for (int i = 0; i < arraySize; i++) {
-			Rectangle r = new Rectangle(mainPane.getPrefWidth() / (this.arraySize),
-					10 + (int) (Math.random() * (mainPane.getPrefHeight() - 20)));
-			r.setFill(Color.rgb(157, 133, 255));
-			r.setStroke(Color.WHITE);
-			if (arraySize >= 150)
-				r.setStrokeWidth(0.1);
-			else
-				r.setStrokeWidth(0.5);
-			r.setLayoutX(i * r.getWidth());
-			r.setLayoutY(mainPane.getPrefHeight() - r.getHeight());
-
-			mainPane.getChildren().add(r);
-//			System.out.println(getYValue(r));
-		}
-	}
-
-	public void generateCircle() {
-		for (int i = 0; i < arraySize; i++) {
-			Circle c = new Circle(mainPane.getPrefWidth() / (2 * this.arraySize));
-			c.setLayoutX(i * c.getRadius() * 2 + c.getRadius());
-			c.setLayoutY(10 + (int) (Math.random() * (mainPane.getPrefHeight() - 20)));
-			c.setFill(Color.rgb(157, 133, 255));
-			mainPane.getChildren().add(c);
-//			System.out.println(getYValue(c));
-		}
-	}
-	
-	public double getYValue(Shape s) {
-		return mainPane.getPrefHeight() - s.getLayoutY();
-	}
-
-	public void delay() throws InterruptedException {
-		Thread.sleep(delayTime);
-	}
-
 }
