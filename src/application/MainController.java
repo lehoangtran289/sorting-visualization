@@ -9,6 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -39,6 +42,8 @@ public class MainController implements Initializable {
 	private Pane mainPane;
 	@FXML
 	private TextArea textArea;
+	@FXML
+	private Button creditButton;
 
 	private Map<String, String> algoInfo = Map.of(BUBBLE, "Best Case: O(n)\nWorst Case: O(n^2)\nAverage: O(n^2)",
 			SELECTION, "Best Case: O(n)\nWorst Case: O(n^2)\nAverage: O(n^2)", MERGE,
@@ -92,6 +97,15 @@ public class MainController implements Initializable {
 	public void resetButtonClick(ActionEvent e) {
 		mainPane.getChildren().clear();
 		generate();
+	}
+	
+	public void creditButtonClick(ActionEvent e) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Credit");
+		alert.setHeaderText("JavaFX OOLT Project 6: Sorting Algorithms Visualization");
+		alert.setContentText("Tran Le Hoang - 20176764\nTran Hai Son - 2017xxxx\nHoang Tuan Anh - 2017xxxx");
+		alert.show();
+
 	}
 
 	// ----utils------------------------------------------------

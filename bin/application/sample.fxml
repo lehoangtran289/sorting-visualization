@@ -27,7 +27,7 @@
 						<Font size="17.0" />
 					</font>
 				</Label>
-				<Button layoutX="1096.0" layoutY="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #b09dfc;" text="CREDITS" textFill="WHITE">
+				<Button layoutX="1096.0" layoutY="75.0" mnemonicParsing="false" onAction="#creditButtonClick" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #b09dfc;" text="CREDITS" textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="13.0" />
 					</font>
