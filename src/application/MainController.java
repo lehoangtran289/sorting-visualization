@@ -3,6 +3,7 @@ package application;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -103,7 +104,7 @@ public class MainController implements Initializable {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Credit");
 		alert.setHeaderText("JavaFX OOLT Project 6: Sorting Algorithms Visualization");
-		alert.setContentText("Tran Le Hoang - 20176764\nTran Hai Son - 2017xxxx\nHoang Tuan Anh - 2017xxxx");
+		alert.setContentText("Tran Le Hoang - 20176764\nTran Hai Son - 2017xxxx\nHoang Tuan Anh Van - 20170224");
 		alert.show();
 	}
 	
@@ -122,7 +123,7 @@ public class MainController implements Initializable {
 			for (int i = 0; i < arraySize; i++) {
 				for (int j = i + 1; j < arraySize; j++) {
 					Circle s1 = (Circle) mainPane.lookup("#" + i);
-					Circle s2 = (Circle) mainPane.lookup("#" + j);
+					Circle s2 = (Circle) mainPane.lookup("#" + j);;
 					if (s1.getCenterY() < s2.getCenterY())
 						service.swapCircle(s1, s2);
 				}
