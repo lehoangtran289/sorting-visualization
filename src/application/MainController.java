@@ -110,8 +110,6 @@ public class MainController implements Initializable {
 		alert.show();
 	}
 
-	
-	
 	// TODO: generate different algorithms and delay time for animation
 	public void sortButtonClick(ActionEvent e) throws InterruptedException {
 		if (curGraphType == Constants.BARS)

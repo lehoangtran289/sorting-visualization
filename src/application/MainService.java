@@ -1,6 +1,7 @@
 package application;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,17 +23,12 @@ public class MainService {
 	public void generateRectangle(Pane mainPane, int arraySize) {
 		double xpart = mainPane.getPrefWidth() / arraySize;
 		double ypart = mainPane.getPrefHeight() / arraySize;
-		
+
 		List<Integer> lst = IntStream.range(1, arraySize + 1).boxed().collect(Collectors.toList());
 		for (int i = 0; i < arraySize; i++) {
-			int randomY = -1;
-			while (true) { 	// generate distinct height for each rectangle
-				randomY = (int) (1 + Math.random() * arraySize);
-				if (lst.indexOf(randomY) != -1) {
-					lst.remove(lst.indexOf(randomY));
-					break;
-				}
-			}
+			Random random = new Random();	// generate distinct height index for each rectangle
+			int randomY = lst.get(random.nextInt(lst.size()));
+			lst.remove(lst.indexOf(randomY));
 
 			Rectangle r = new Rectangle(0, 0, xpart, randomY * ypart);
 			r.setFill(Color.rgb(157, 133, 255));
@@ -51,10 +47,19 @@ public class MainService {
 	}
 
 	public void generateCircle(Pane mainPane, int arraySize) {
+		List<Integer> lst = IntStream.range(0, arraySize).boxed()
+				.collect(Collectors.toList());
+		double radius = mainPane.getPrefWidth() / (2 * arraySize);
+
 		for (int i = 0; i < arraySize; i++) {
-			Circle c = new Circle(mainPane.getPrefWidth() / (2 * arraySize));
-			c.setCenterX(i * c.getRadius() * 2 + c.getRadius());
-			c.setCenterY(c.getRadius() + (int) (Math.random() * (mainPane.getPrefHeight() - 2 * c.getRadius())));
+			Random r = new Random();    // generate distinct height index for each circle
+			int randomY = lst.get(r.nextInt(lst.size()));
+			lst.remove(lst.indexOf(randomY));
+			System.out.println(randomY);
+
+			Circle c = new Circle(radius); // radius
+			c.setCenterX(i * radius * 2 + radius);
+			c.setCenterY(radius * randomY+ radius);
 			c.setFill(Color.rgb(157, 133, 255));
 			c.setId(i + "");
 //			System.out.println(c); // debug
