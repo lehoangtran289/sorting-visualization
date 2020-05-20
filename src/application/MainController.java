@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -18,7 +17,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 public class MainController implements Initializable {
 
@@ -39,12 +40,14 @@ public class MainController implements Initializable {
 	@FXML
 	private Button creditButton;
 
-	private Map<String, String> algoInfo = Map.of(Constants.BUBBLE, "Best Case: O(n)\nWorst Case: O(n^2)\nAverage: O(n^2)",
-			Constants.SELECTION, "Best Case: O(n)\nWorst Case: O(n^2)\nAverage: O(n^2)", Constants.MERGE,
+	private Map<String, String> algoInfo = Map.of(Constants.BUBBLE,
+			"Best Case: O(n)\nWorst Case: O(n^2)\nAverage: O(n^2)", Constants.SELECTION,
+			"Best Case: O(n)\nWorst Case: O(n^2)\nAverage: O(n^2)", Constants.MERGE,
 			"Best Case: O(nlogn)\nWorst Case: O(nlogn)\nAverage: O(nlogn)", Constants.BUCKET,
 			"Best Case: O(n+k)\nWorst Case: O(n^2)\nAverage: O(n+k)");
 
-	private ObservableList<String> algorithmsList = FXCollections.observableArrayList(Constants.BUBBLE, Constants.SELECTION, Constants.MERGE, Constants.BUCKET);
+	private ObservableList<String> algorithmsList = FXCollections.observableArrayList(Constants.BUBBLE,
+			Constants.SELECTION, Constants.MERGE, Constants.BUCKET);
 
 	private ObservableList<String> graphTypesList = FXCollections.observableArrayList("Bar graphs", "Dots");
 
@@ -104,29 +107,25 @@ public class MainController implements Initializable {
 		alert.show();
 	}
 	
-	public void sortButtonClick(ActionEvent e) {
-//		ObservableList<Node> lst = mainPane.getChildren();
-//		lst = lst.sorted((a,b) -> {
-//			return (int) (a.getLayoutY() - b.getLayoutY());
-//		});
-//		mainPane.getChildren().clear();
-//		mainPane.getChildren().addAll(lst);
-		
-		Shape s1 = (Shape) mainPane.getChildren().get(0);
-		Shape s2 = (Shape) mainPane.getChildren().get(1);
-		System.out.println("s1: " + s1.getLayoutY());
-		System.out.println("s2: " + s2.getLayoutY());
-		if (s1.getLayoutY() < s2.getLayoutY()) {
-			service.swapObj(s1, s2);
-		}
-		
-//		for(int i = 0; i < arraySize; i++) {
-//			for (int j = i+1; j < arraySize; j++) {
-//				Shape s1 = (Shape) mainPane.getChildren().get(i);
-//				Shape s2 = (Shape) mainPane.getChildren().get(j);
-//				if (s1.getLayoutY() < s2.getLayoutY())
-//					service.swapObj(s1, s2);
-//			}
-//		}
+	// TODO: generate different algorithms and delay time for animation
+	public void sortButtonClick(ActionEvent e) throws InterruptedException {
+		if (curGraphType == Constants.BARS)
+			for (int i = 0; i < arraySize; i++) {
+				Rectangle s1 = (Rectangle) mainPane.lookup("#" + i);
+				for (int j = i + 1; j < arraySize; j++) {
+					Rectangle s2 = (Rectangle) mainPane.lookup("#" + j);
+					if (s1.getHeight() > s2.getHeight())
+						service.swapRectangle(s1, s2);
+				}
+			}
+		if (curGraphType == Constants.DOTS)
+			for (int i = 0; i < arraySize; i++) {
+				for (int j = i + 1; j < arraySize; j++) {
+					Circle s1 = (Circle) mainPane.lookup("#" + i);
+					Circle s2 = (Circle) mainPane.lookup("#" + j);
+					if (s1.getCenterY() < s2.getCenterY())
+						service.swapCircle(s1, s2);
+				}
+			}
 	}
 }
