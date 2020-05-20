@@ -1,6 +1,7 @@
 package application;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -17,7 +18,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -68,10 +68,10 @@ public class MainController implements Initializable {
 		});
 
 		// init array size
-		sizeLabel.setText("Array size: " + this.arraySize);
+		sizeLabel.setText("Array size: " + arraySize);
 		sizeSlider.valueProperty().addListener((observable, oldVal, newVal) -> {
-			this.arraySize = newVal.intValue() / 10 * 10;
-			sizeLabel.setText("Array size: " + this.arraySize);
+			arraySize = newVal.intValue() / 10 * 10;
+			sizeLabel.setText("Array size: " + arraySize);
 		});
 
 		// init combobox
@@ -90,12 +90,10 @@ public class MainController implements Initializable {
 
 	public void graphTypesBoxChange(ActionEvent e) {
 		this.curGraphType = graphTypesBox.getValue();
-		mainPane.getChildren().clear();
 		service.generate(mainPane, arraySize, curGraphType);
 	}
 
 	public void resetButtonClick(ActionEvent e) {
-		mainPane.getChildren().clear();
 		service.generate(mainPane, arraySize, curGraphType);
 	}
 
@@ -106,7 +104,7 @@ public class MainController implements Initializable {
 		alert.setContentText("Tran Le Hoang - 20176764\nTran Hai Son - 2017xxxx\nHoang Tuan Anh - 2017xxxx");
 		alert.show();
 	}
-	
+
 	// TODO: generate different algorithms and delay time for animation
 	public void sortButtonClick(ActionEvent e) throws InterruptedException {
 		if (curGraphType == Constants.BARS)

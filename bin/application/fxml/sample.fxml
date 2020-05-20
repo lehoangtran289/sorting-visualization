@@ -119,7 +119,7 @@
 								<Font size="13.0" />
 							</font>
 						</Label>
-						<Slider fx:id="sizeSlider" blockIncrement="0.0" layoutX="139.0" layoutY="15.0" majorTickUnit="10.0" min="10.0" minorTickCount="1" prefHeight="37.0" prefWidth="143.0" showTickLabels="true" showTickMarks="true" value="10.0" />
+						<Slider fx:id="sizeSlider" blockIncrement="1.0" layoutX="139.0" layoutY="15.0" majorTickUnit="30.0" min="10.0" minorTickCount="0" prefHeight="37.0" prefWidth="143.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0" />
 					</children>
 				</Pane>
 				<Pane prefHeight="58.0" prefWidth="307.0">

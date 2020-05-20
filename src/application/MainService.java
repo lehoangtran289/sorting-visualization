@@ -1,5 +1,9 @@
 package application;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -8,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 public class MainService {
 
 	public void generate(Pane mainPane, int arraySize, String curGraphType) {
+		mainPane.getChildren().clear();
 		if (curGraphType == Constants.BARS)
 			generateRectangle(mainPane, arraySize);
 		if (curGraphType == Constants.DOTS)
@@ -17,9 +22,19 @@ public class MainService {
 	public void generateRectangle(Pane mainPane, int arraySize) {
 		double xpart = mainPane.getPrefWidth() / arraySize;
 		double ypart = mainPane.getPrefHeight() / arraySize;
-
+		
+		List<Integer> lst = IntStream.range(1, arraySize + 1).boxed().collect(Collectors.toList());
 		for (int i = 0; i < arraySize; i++) {
-			Rectangle r = new Rectangle(0, 0, xpart, 10 + (int) (Math.random() * (mainPane.getPrefHeight() - 20)));
+			int randomY = -1;
+			while (true) { 	// generate distinct height for each rectangle
+				randomY = (int) (1 + Math.random() * arraySize);
+				if (lst.indexOf(randomY) != -1) {
+					lst.remove(lst.indexOf(randomY));
+					break;
+				}
+			}
+
+			Rectangle r = new Rectangle(0, 0, xpart, randomY * ypart);
 			r.setFill(Color.rgb(157, 133, 255));
 			r.setStroke(Color.WHITE);
 			if (arraySize >= 150)
