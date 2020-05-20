@@ -71,8 +71,12 @@ public class MainController implements Initializable {
 		// init array size
 		sizeLabel.setText("Array size: " + arraySize);
 		sizeSlider.valueProperty().addListener((observable, oldVal, newVal) -> {
+			int cur = arraySize;
 			arraySize = newVal.intValue() / 10 * 10;
-			sizeLabel.setText("Array size: " + arraySize);
+			if ( cur != arraySize && (arraySize == 10 || arraySize == 40 || arraySize == 70 || arraySize == 100)) {
+				sizeLabel.setText("Array size: " + arraySize);
+				service.generate(mainPane, arraySize, curGraphType);
+			}
 		});
 
 		// init combobox
@@ -106,6 +110,8 @@ public class MainController implements Initializable {
 		alert.show();
 	}
 
+	
+	
 	// TODO: generate different algorithms and delay time for animation
 	public void sortButtonClick(ActionEvent e) throws InterruptedException {
 		if (curGraphType == Constants.BARS)
