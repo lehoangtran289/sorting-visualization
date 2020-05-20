@@ -7,10 +7,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class MainService {
+	
 	public void generate(Pane mainPane, int arraySize, String curGraphType) {
-		if (curGraphType == "Bar graphs")
+		if (curGraphType == Constants.BARS)
 			generateRectangle(mainPane, arraySize);
-		else
+		if (curGraphType == Constants.DOTS)
 			generateCircle(mainPane, arraySize);
 	}
 
@@ -26,10 +27,11 @@ public class MainService {
 				r.setStrokeWidth(0.5);
 			r.setLayoutX(i * r.getWidth());
 			r.setLayoutY(mainPane.getPrefHeight() - r.getHeight());
-
+			r.setId(i + "");
 			mainPane.getChildren().add(r);
 //			System.out.println(getYValue(r));
 		}
+//		System.out.println(mainPane.getChildren().get(10).getLayoutY());
 	}
 
 	public void generateCircle(Pane mainPane, int arraySize) {
@@ -38,6 +40,7 @@ public class MainService {
 			c.setLayoutX(i * c.getRadius() * 2 + c.getRadius());
 			c.setLayoutY(10 + (int) (Math.random() * (mainPane.getPrefHeight() - 20)));
 			c.setFill(Color.rgb(157, 133, 255));
+			c.setId(i + "");
 			mainPane.getChildren().add(c);
 //			System.out.println(getYValue(c));
 		}
@@ -49,5 +52,14 @@ public class MainService {
 
 	public void delay(int delayTime) throws InterruptedException {
 		Thread.sleep(delayTime);
+	}
+	
+	public void swapObj(Shape s1, Shape s2) {
+		double temp = s1.getLayoutX();
+		String id = s1.getId();
+		s1.setLayoutX(s2.getLayoutX());
+		s2.setLayoutX(temp);
+		s1.setId(s2.getId());
+		s2.setId(id);
 	}
 }

@@ -11,7 +11,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("fxml/sample.fxml"));
 			Scene scene = new Scene(root);
 			
 			primaryStage.getIcons().add(new Image("/resources/1200px-Logo_Hust.png"));
