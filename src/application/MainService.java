@@ -13,7 +13,7 @@ import javafx.scene.shape.Rectangle;
 public class MainService {
 
 	public void generate(Pane mainPane, int arraySize, String curGraphType) {
-		mainPane.getChildren().clear();
+		mainPane.getChildren().clear(); 
 		if (curGraphType == Constants.BARS)
 			generateRectangle(mainPane, arraySize);
 		if (curGraphType == Constants.DOTS)
@@ -26,7 +26,7 @@ public class MainService {
 
 		List<Integer> lst = IntStream.range(1, arraySize + 1).boxed().collect(Collectors.toList());
 		for (int i = 0; i < arraySize; i++) {
-			Random random = new Random();	// generate distinct height index for each rectangle
+			Random random = new Random(); // generate distinct height index for each rectangle
 			int randomY = lst.get(random.nextInt(lst.size()));
 			lst.remove(lst.indexOf(randomY));
 
@@ -47,19 +47,19 @@ public class MainService {
 	}
 
 	public void generateCircle(Pane mainPane, int arraySize) {
-		List<Integer> lst = IntStream.range(0, arraySize).boxed()
-				.collect(Collectors.toList());
+		List<Integer> lst = IntStream.range(0, arraySize).boxed().collect(Collectors.toList());
 		double radius = mainPane.getPrefWidth() / (2 * arraySize);
+		double ypart = (mainPane.getPrefHeight() - 2 * radius) / arraySize;
 
 		for (int i = 0; i < arraySize; i++) {
-			Random r = new Random();    // generate distinct height index for each circle
+			Random r = new Random(); // generate distinct height index for each circle
 			int randomY = lst.get(r.nextInt(lst.size()));
 			lst.remove(lst.indexOf(randomY));
 			System.out.println(randomY);
 
 			Circle c = new Circle(radius); // radius
 			c.setCenterX(i * radius * 2 + radius);
-			c.setCenterY(radius * randomY+ radius);
+			c.setCenterY(randomY * ypart + radius);
 			c.setFill(Color.rgb(157, 133, 255));
 			c.setId(i + "");
 //			System.out.println(c); // debug

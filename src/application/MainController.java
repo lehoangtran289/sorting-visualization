@@ -2,9 +2,9 @@ package application;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -69,11 +69,12 @@ public class MainController implements Initializable {
 		});
 
 		// init array size
+		List<Integer> size = Arrays.asList(10, 40, 70, 100);
 		sizeLabel.setText("Array size: " + arraySize);
 		sizeSlider.valueProperty().addListener((observable, oldVal, newVal) -> {
-			int cur = arraySize;
+			int prevSize = arraySize;
 			arraySize = newVal.intValue() / 10 * 10;
-			if ( cur != arraySize && (arraySize == 10 || arraySize == 40 || arraySize == 70 || arraySize == 100)) {
+			if ( prevSize != arraySize && size.contains(arraySize)) {
 				sizeLabel.setText("Array size: " + arraySize);
 				service.generate(mainPane, arraySize, curGraphType);
 			}
