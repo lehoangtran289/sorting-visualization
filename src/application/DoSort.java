@@ -21,26 +21,34 @@ public class DoSort extends Task<Void> {
 		this.service = service;
 	}
 
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+
 	// TODO: generate different algorithms and delay time for animation
 	@Override
 	protected Void call() throws Exception {
 		if (isCancelled())
 			return null;
-		
+
 		Color prevColor = Color.rgb(157, 133, 255);
 		if (curGraphType == Constants.BARS)
-			for (int i = 0; i < size - 1; i++) {
+			for (int i = 0; i < size - 1; i++) {		// selection sort
 				Rectangle s1 = service.getRect(pane, i);
 				for (int j = i + 1; j < size; j++) {
 					Rectangle s2 = service.getRect(pane, j);
-					Thread.sleep(delay);
+					Thread.sleep(delay);			
 					if (s1.getHeight() > s2.getHeight()) {
 						service.swapRectangle(s1, s2);
 					}
 				}
 			}
 		if (curGraphType == Constants.DOTS)
-			for (int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++) {			// selection sort
 				Circle s1 = service.getCircle(pane, i);
 				for (int j = i + 1; j < size; j++) {
 					Thread.sleep(delay);

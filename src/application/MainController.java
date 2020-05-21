@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,7 +52,7 @@ public class MainController implements Initializable {
 
 	private ObservableList<String> graphTypesList = FXCollections.observableArrayList("Bar graphs", "Dots");
 
-	private int isStart = 0;
+	private int isStart = 0; // check if sort start
 	private String curAlgo;
 	private String curGraphType;
 	private int arraySize = 10;
@@ -72,8 +71,8 @@ public class MainController implements Initializable {
 		delaySlider.valueProperty().addListener((observable, oldVal, newVal) -> {
 			delay = newVal.intValue();
 			delayLabel.setText("Delay: " + delay + " ms");
-			if (oldVal != newVal && isStart == 1) {
-				doSort.cancel();
+			if (oldVal != newVal && isStart == 1) {		// bind delay with doSort
+				doSort.setDelay(delay);
 			}
 		});
 
@@ -83,9 +82,10 @@ public class MainController implements Initializable {
 		sizeSlider.valueProperty().addListener((observable, oldVal, newVal) -> {
 			int prevSize = arraySize;
 			arraySize = newVal.intValue() / 10 * 10;
-			if (prevSize != arraySize && size.contains(arraySize)) {
+			if (prevSize != arraySize && size.contains(arraySize)) {	// reset pane if slider change
 				sizeLabel.setText("Array size: " + arraySize);
 				service.generate(mainPane, arraySize, curGraphType);
+				isStart = 0;
 			}
 		});
 
@@ -106,10 +106,12 @@ public class MainController implements Initializable {
 	public void graphTypesBoxChange(ActionEvent e) {
 		this.curGraphType = graphTypesBox.getValue();
 		service.generate(mainPane, arraySize, curGraphType);
+		isStart = 0;
 	}
 
 	public void resetButtonClick(ActionEvent e) {
 		service.generate(mainPane, arraySize, curGraphType);
+		isStart = 0;
 	}
 
 	public void creditButtonClick(ActionEvent e) {
@@ -125,12 +127,12 @@ public class MainController implements Initializable {
 		doSort = new DoSort(arraySize, delay, curGraphType, mainPane, service);
 		isStart = 1;
 
-		System.out.println("active threads: " + Thread.activeCount());
-		Set<Thread> threads = Thread.getAllStackTraces().keySet();
-		for (Thread t : threads) {
-			String type = t.isDaemon() ? "Daemon" : "Normal";
-			System.out.printf("%-20s \t\t %s \t %d \t %s\n", t.getName(), t.getState(), t.getPriority(), type);
-		}
+//		System.out.println("active threads: " + Thread.activeCount());
+//		Set<Thread> threads = Thread.getAllStackTraces().keySet();
+//		for (Thread t : threads) {
+//			String type = t.isDaemon() ? "Daemon" : "Normal";
+//			System.out.printf("%-20s \t\t %s \t %d \t %s\n", t.getName(), t.getState(), t.getPriority(), type);
+//		}
 
 		new Thread(doSort).start();
 	}
