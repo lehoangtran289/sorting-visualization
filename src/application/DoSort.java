@@ -3,6 +3,7 @@ package application;
 import javafx.concurrent.Task;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -35,27 +36,44 @@ public class DoSort extends Task<Void> {
 		if (isCancelled())
 			return null;
 
-		Color prevColor = Color.rgb(157, 133, 255);
+		Color prev = Color.rgb(157, 133, 255);
+		Paint green = Color.LIGHTGREEN;
+		Paint red = Color.INDIANRED;
+		Paint blue = Color.CADETBLUE;
+		
 		if (curGraphType == Constants.BARS)
-			for (int i = 0; i < size - 1; i++) {		// selection sort
-				Rectangle s1 = service.getRect(pane, i);
+			for (int i = 0; i < size - 1; i++) {		
+				Rectangle cur = service.getRect(pane, i);
+				cur.setFill(green);
+				Rectangle min = service.getRect(pane, i);
 				for (int j = i + 1; j < size; j++) {
-					Rectangle s2 = service.getRect(pane, j);
-					Thread.sleep(delay);			
-					if (s1.getHeight() > s2.getHeight()) {
-						service.swapRectangle(s1, s2);
+					Rectangle temp = service.getRect(pane, j);
+					temp.setFill(red);
+					if (min.getHeight() > temp.getHeight()) {
+						min = temp;
 					}
+					Thread.sleep(delay);			
+					temp.setFill(prev);
 				}
+				service.swapRectangle(cur, min);
+				cur.setFill(prev);
 			}
 		if (curGraphType == Constants.DOTS)
-			for (int i = 0; i < size; i++) {			// selection sort
-				Circle s1 = service.getCircle(pane, i);
+			for (int i = 0; i < size; i++) {			
+				Circle cur = service.getCircle(pane, i);
+				cur.setFill(green);
+				Circle min = service.getCircle(pane, i);
 				for (int j = i + 1; j < size; j++) {
+					Circle temp = service.getCircle(pane, j);
+					temp.setFill(red);
+					if (min.getCenterY() < temp.getCenterY()) {
+						min = temp;
+					}
 					Thread.sleep(delay);
-					Circle s2 = service.getCircle(pane, j);
-					if (s1.getCenterY() < s2.getCenterY())
-						service.swapCircle(s1, s2);
+					temp.setFill(prev);
 				}
+				service.swapCircle(cur, min);
+				cur.setFill(prev);
 			}
 		return null;
 	}
