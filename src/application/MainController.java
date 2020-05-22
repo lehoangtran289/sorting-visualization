@@ -57,7 +57,7 @@ public class MainController implements Initializable {
 	private int isRunning = 0;
 	private String curAlgo;
 	private String curGraphType;
-	private int arraySize = 10;
+	private int arraySize = 500;
 	private int delay = 100;
 
 	private MainService service = new MainService();
@@ -133,17 +133,16 @@ public class MainController implements Initializable {
 
 	// TODO: generate different algorithms and delay time for animation
 	public void sortButtonClick(ActionEvent e) throws InterruptedException {
+		if (doSort != null) {
+			doSort.cancel();
+		}
 		doSort = new DoSort(arraySize, delay, curGraphType, mainPane, service);
 		isStart = 1;
 
 		System.out.println("active threads: " + Thread.activeCount());
-//		Set<Thread> threads = Thread.getAllStackTraces().keySet();
-//		for (Thread t : threads) {
-//			String type = t.isDaemon() ? "Daemon" : "Normal";
-//			System.out.printf("%-20s \t\t %s \t %d \t %s\n", t.getName(), t.getState(), t.getPriority(), type);
-//		}
 
 		Thread thread = new Thread(doSort);
+		thread.setDaemon(true);
 		thread.start();
 	}
 }

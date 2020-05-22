@@ -1,13 +1,13 @@
 package application;
 
 import javafx.concurrent.Task;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+//TODO: make this abstract class -> sort algo can extends this Task class 
 public class DoSort extends Task<Void> {
 	private int size;
 	private String curGraphType;
@@ -31,7 +31,7 @@ public class DoSort extends Task<Void> {
 		this.delay = delay;
 	}
 
-	// TODO: generate different algorithms and delay time for animation
+	// TODO: generate different algorithms
 	@Override
 	protected Void call() throws Exception {
 		if (isCancelled())
@@ -41,9 +41,9 @@ public class DoSort extends Task<Void> {
 		Paint green = Color.LIGHTGREEN;
 		Paint red = Color.INDIANRED;
 		Paint blue = Color.CADETBLUE;
-		
+
 		if (curGraphType == Constants.BARS)
-			for (int i = 0; i < size - 1; i++) {		
+			for (int i = 0; i < size - 1; i++) {
 				Rectangle cur = service.getRect(pane, i);
 				cur.setFill(green);
 				Rectangle min = service.getRect(pane, i);
@@ -53,14 +53,14 @@ public class DoSort extends Task<Void> {
 					if (min.getHeight() > temp.getHeight()) {
 						min = temp;
 					}
-					Thread.sleep(delay);			
+					Thread.sleep(delay);
 					temp.setFill(prev);
 				}
 				service.swapRectangle(cur, min);
 				cur.setFill(prev);
 			}
 		if (curGraphType == Constants.DOTS)
-			for (int i = 0; i < size; i++) {			
+			for (int i = 0; i < size; i++) {
 				Circle cur = service.getCircle(pane, i);
 				cur.setFill(green);
 				Circle min = service.getCircle(pane, i);

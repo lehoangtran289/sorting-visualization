@@ -71,15 +71,12 @@ public class MainService {
 	public void swapRectangle(Rectangle s1, Rectangle s2) {
 		double temp = s1.getHeight();
 		double tempy = s1.getY();
-		Paint tempColor = s1.getFill();
 
 		s1.setHeight(s2.getHeight());
 		s1.setY(s2.getY());
-//		s1.setFill(s2.getFill());
 
 		s2.setHeight(temp);
 		s2.setY(tempy);
-//		s2.setFill(tempColor);
 	}
 
 	public void swapCircle(Circle c1, Circle c2) {
@@ -94,5 +91,9 @@ public class MainService {
 	
 	public Circle getCircle(Pane pane, int i) {
 		return (Circle) pane.lookup("#" + i);
+	}
+	
+	public void resetColor(Pane pane, int size) {
+		
 	}
 }
