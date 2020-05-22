@@ -7,30 +7,32 @@ import java.util.stream.IntStream;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class MainService {
-
+	
+	// generate pane according to size and graph type
 	public void generate(Pane pane, int size, String curGraphType) {
-		pane.getChildren().clear(); 
+		pane.getChildren().clear(); 	// clear current pane
 		if (curGraphType == Constants.BARS)
 			generateRectangle(pane, size);
 		if (curGraphType == Constants.DOTS)
 			generateCircle(pane, size);
 	}
-
+	
+	// generate pane of Rectangles
 	public void generateRectangle(Pane pane, int size) {
-		double xpart = pane.getPrefWidth() / size;
-		double ypart = pane.getPrefHeight() / size;
+		double xpart = pane.getPrefWidth() / size;	// 1 part of Pane's width
+		double ypart = pane.getPrefHeight() / size;	// 1 part of Pane's height
 
-		List<Integer> lst = IntStream.range(1, size + 1).boxed().collect(Collectors.toList());
+		List<Integer> lst = IntStream.range(1, size + 1).boxed().collect(Collectors.toList()); 
 		for (int i = 0; i < size; i++) {
-			Random random = new Random(); // generate distinct height index for each rectangle
+			Random random = new Random(); 			// generate distinct height index for each rectangle
 			int randomY = lst.get(random.nextInt(lst.size()));
 			lst.remove(lst.indexOf(randomY));
-
+			
+			// config rectangle
 			Rectangle r = new Rectangle(0, 0, xpart, randomY * ypart);
 			r.setFill(Color.rgb(157, 133, 255));
 			r.setStroke(Color.WHITE);
@@ -41,33 +43,36 @@ public class MainService {
 			r.setX(i * r.getWidth());
 			r.setY(pane.getPrefHeight() - r.getHeight());
 			r.setId(i + "");
-//			System.out.println(r); // debug
-
+			
+			//add rectangle to pane
 			pane.getChildren().add(r);
 		}
 	}
-
+	
+	// generate pane of Circles
 	public void generateCircle(Pane pane, int size) {
 		List<Integer> lst = IntStream.range(0, size).boxed().collect(Collectors.toList());
-		double radius = pane.getPrefWidth() / (2 * size);
+		double radius = pane.getPrefWidth() / (2 * size);		
 		double ypart = (pane.getPrefHeight() - 2 * radius) / size;
 
 		for (int i = 0; i < size; i++) {
-			Random r = new Random(); // generate distinct height index for each circle
+			Random r = new Random(); 				// generate distinct height index for each circle
 			int randomY = lst.get(r.nextInt(lst.size()));
 			lst.remove(lst.indexOf(randomY));
-
-			Circle c = new Circle(radius); // radius
+			
+			// config rectangle
+			Circle c = new Circle(radius); 		
 			c.setCenterX(i * radius * 2 + radius);
 			c.setCenterY(randomY * ypart + radius);
 			c.setFill(Color.rgb(157, 133, 255));
 			c.setId(i + "");
-//			System.out.println(c); // debug
-
+			
+			//add circle to pane
 			pane.getChildren().add(c);
 		}
 	}
-
+	
+	// swap = swap height and swap y
 	public void swapRectangle(Rectangle s1, Rectangle s2) {
 		double temp = s1.getHeight();
 		double tempy = s1.getY();
@@ -78,22 +83,21 @@ public class MainService {
 		s2.setHeight(temp);
 		s2.setY(tempy);
 	}
-
+	
+	// swap = swap center Y
 	public void swapCircle(Circle c1, Circle c2) {
 		double temp = c1.getCenterY();
 		c1.setCenterY(c2.getCenterY());
 		c2.setCenterY(temp);
 	}
 	
+	// get Rectangle with given id
 	public Rectangle getRect(Pane pane, int i) {
 		return (Rectangle) pane.lookup("#" + i);
 	}
 	
+	// get Circle with given id
 	public Circle getCircle(Pane pane, int i) {
 		return (Circle) pane.lookup("#" + i);
-	}
-	
-	public void resetColor(Pane pane, int size) {
-		
 	}
 }

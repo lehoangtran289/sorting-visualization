@@ -109,7 +109,7 @@
 								<Font size="13.0" />
 							</font>
 						</Label>
-						<Slider fx:id="delaySlider" blockIncrement="100.0" layoutX="139.0" layoutY="10.0" majorTickUnit="100.0" max="500.0" minorTickCount="0" prefHeight="14.0" prefWidth="143.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+						<Slider fx:id="delaySlider" blockIncrement="20.0" layoutX="139.0" layoutY="10.0" majorTickUnit="20.0" minorTickCount="1" prefHeight="14.0" prefWidth="143.0" showTickLabels="true" showTickMarks="true" value="30.0" />
 					</children>
 				</Pane>
 				<Pane prefHeight="44.0" prefWidth="307.0">

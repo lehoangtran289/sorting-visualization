@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import application.algorithm.SelectionSort;
+import application.task.SortTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
 public class MainController implements Initializable {
+	// FXML components
 	@FXML
 	private Slider delaySlider;
 	@FXML
@@ -41,56 +44,57 @@ public class MainController implements Initializable {
 	private Button creditButton;
 	@FXML
 	private Button sortButton;
-
+	
 	private Map<String, String> algoInfo = Map.of(Constants.BUBBLE,
 			"Best Case: O(n)\nWorst Case: O(n^2)\nAverage: O(n^2)", Constants.SELECTION,
 			"Best Case: O(n)\nWorst Case: O(n^2)\nAverage: O(n^2)", Constants.MERGE,
 			"Best Case: O(nlogn)\nWorst Case: O(nlogn)\nAverage: O(nlogn)", Constants.BUCKET,
 			"Best Case: O(n+k)\nWorst Case: O(n^2)\nAverage: O(n+k)");
-
+	
+	// these ObservableList are used for Combobox initialization
 	private ObservableList<String> algorithmsList = FXCollections.observableArrayList(Constants.BUBBLE,
 			Constants.SELECTION, Constants.MERGE, Constants.BUCKET);
 
 	private ObservableList<String> graphTypesList = FXCollections.observableArrayList("Bar graphs", "Dots");
-
+	
+	
 	private int isStart = 0; // check if sort start
-	private int isRunning = 0;
-	private String curAlgo;
-	private String curGraphType;
-	private int arraySize = 500;
-	private int delay = 100;
+	private String curAlgo;	 // current algo being selected
+	private String curGraphType; // current graph type being selected
+	private int arraySize = 10; // init array size
+	private int delay = 30; 	 // init delay time
 
 	private MainService service = new MainService();
 
-	private DoSort doSort;
-	private Thread thread;
+	private SortTask sortTask;
 
-	// ----HANDLERS------------------------------------
+	// ----FXML HANDLERS------------------------------------
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// init delaytime
-		delayLabel.setText("Delay: " + delay + " ms");
-		delaySlider.valueProperty().addListener((observable, oldVal, newVal) -> {
+		// init delaytime slider 
+		delayLabel.setText("Delay: " + delay + " ms");		// set label text
+		delaySlider.valueProperty().addListener((observable, oldVal, newVal) -> {	// add listener to delay slider
 			delay = newVal.intValue();
 			delayLabel.setText("Delay: " + delay + " ms");
-			if (oldVal != newVal && isStart == 1) { // bind delay with doSort
-				doSort.setDelay(delay);
+			if (oldVal != newVal && isStart == 1) { 	// bind delay value change with SortTask
+				sortTask.setDelay(delay);
 			}
 		});
 
-		// init array size
-		List<Integer> size = Arrays.asList(10, 40, 70, 100);
-		sizeLabel.setText("Array size: " + arraySize);
-		sizeSlider.valueProperty().addListener((observable, oldVal, newVal) -> {
+		// init array size slider
+		List<Integer> size = Arrays.asList(10, 40, 70, 100);	
+		
+		sizeLabel.setText("Array size: " + arraySize);		// set label text
+		sizeSlider.valueProperty().addListener((observable, oldVal, newVal) -> {	// add listener to size slider
 			int prevSize = arraySize;
 			arraySize = newVal.intValue() / 10 * 10;
-			if (prevSize != arraySize && size.contains(arraySize)) { // reset pane if slider change
+			if (prevSize != arraySize && size.contains(arraySize)) { // reset pane if array size change
 				sizeLabel.setText("Array size: " + arraySize);
-				service.generate(mainPane, arraySize, curGraphType);
-				isStart = 0;
-				if (doSort != null)
-					doSort.cancel();
+				service.generate(mainPane, arraySize, curGraphType); // generate new pane
+				isStart = 0;	
+				if (sortTask != null)	// if current sort is running -> cancel that
+					sortTask.cancel();
 			}
 		});
 
@@ -98,31 +102,38 @@ public class MainController implements Initializable {
 		algorithmsBox.setItems(algorithmsList);
 		graphTypesBox.setItems(graphTypesList);
 		graphTypesBox.getSelectionModel().selectFirst();
-
+		
+		// init current graph type
 		this.curGraphType = graphTypesBox.getValue();
+		
+		// init pane
 		service.generate(mainPane, arraySize, curGraphType);
 	}
-
+	
+	// set algorithm when combobox change
 	public void algorithmsBoxChange(ActionEvent e) {
 		this.curAlgo = algorithmsBox.getValue();
 		textArea.setText(algoInfo.get(this.curAlgo));
 	}
-
+	
+	// set graph type when combobox change
 	public void graphTypesBoxChange(ActionEvent e) {
 		this.curGraphType = graphTypesBox.getValue();
-		service.generate(mainPane, arraySize, curGraphType);
+		service.generate(mainPane, arraySize, curGraphType);	// generate new pane
 		isStart = 0;
-		if (doSort != null)
-			doSort.cancel();
+		if (sortTask != null)	// if current sort is running -> cancel that
+			sortTask.cancel();
 	}
-
+	
+	// RESET BUTTON
 	public void resetButtonClick(ActionEvent e) {
-		service.generate(mainPane, arraySize, curGraphType);
+		service.generate(mainPane, arraySize, curGraphType);	// generate new pane
 		isStart = 0;
-		if (doSort != null)
-			doSort.cancel();
+		if (sortTask != null)	// if current sort is running -> cancel that
+			sortTask.cancel();
 	}
-
+	
+	// CREDIT BUTTON
 	public void creditButtonClick(ActionEvent e) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Credit");
@@ -131,18 +142,20 @@ public class MainController implements Initializable {
 		alert.show();
 	}
 
-	// TODO: generate different algorithms and delay time for animation
+	// SORT BUTTON
 	public void sortButtonClick(ActionEvent e) throws InterruptedException {
-		if (doSort != null) {
-			doSort.cancel();
+		if (sortTask != null) {		// if current sort is running -> cancel that
+			sortTask.cancel();
+			isStart = 0;
 		}
-		doSort = new DoSort(arraySize, delay, curGraphType, mainPane, service);
+		sortTask = new SelectionSort(arraySize, delay, curGraphType, mainPane, service); // call Sort Task
 		isStart = 1;
 
-		System.out.println("active threads: " + Thread.activeCount());
+		System.out.println("active threads: " + Thread.activeCount());		// current # of threads running
 
-		Thread thread = new Thread(doSort);
+		Thread thread = new Thread(sortTask);	// run thread
 		thread.setDaemon(true);
 		thread.start();
+
 	}
 }
