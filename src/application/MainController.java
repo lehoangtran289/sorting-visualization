@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import application.algorithm.SelectionSort;
 import application.task.SortTask;
@@ -53,15 +52,15 @@ public class MainController implements Initializable {
 			"Best Case: O(n+k)\nWorst Case: O(n^2)\nAverage: O(n+k)");
 
 	// these ObservableList are used for Combobox initialization
-	private ObservableList<String> algorithmsList = FXCollections.observableArrayList(Constants.BUBBLE,
-			Constants.SELECTION, Constants.MERGE, Constants.BUCKET);
+	private ObservableList<String> algorithmsList = FXCollections.observableArrayList(Constants.SELECTION,
+			Constants.BUBBLE, Constants.MERGE, Constants.BUCKET);
 
 	private ObservableList<String> graphTypesList = FXCollections.observableArrayList("Bar graphs", "Dots");
 
 	private int isStart = 0; // check if sort start
 	private String curAlgo; // current algo being selected
 	private String curGraphType; // current graph type being selected
-	private int arraySize = 10; // init array size
+	private int arraySize = 500; // init array size
 	private int delay = 30; // init delay time
 
 	private MainService service = new MainService();
@@ -102,9 +101,12 @@ public class MainController implements Initializable {
 		algorithmsBox.setItems(algorithmsList);
 		graphTypesBox.setItems(graphTypesList);
 		graphTypesBox.getSelectionModel().selectFirst();
+		algorithmsBox.getSelectionModel().selectFirst();
 
 		// init current graph type
-		this.curGraphType = graphTypesBox.getValue();
+		this.curGraphType = graphTypesBox.getValue(); // bar graph
+		this.curAlgo = algorithmsBox.getValue(); // selection sort
+		textArea.setText(algoInfo.get(this.curAlgo)); // selection sort info
 
 		// init pane
 		service.generate(mainPane, arraySize, curGraphType);
@@ -148,7 +150,28 @@ public class MainController implements Initializable {
 			sortTask.cancel();
 			isStart = 0;
 		}
-		sortTask = new SelectionSort(arraySize, delay, curGraphType, mainPane, service); // call Sort Task
+
+		// TODO: Switch different algorithms here
+		switch (curAlgo) {
+		case Constants.SELECTION:
+			sortTask = new SelectionSort(arraySize, delay, curGraphType, mainPane, service); // call Sort Task
+			break;
+		
+		case Constants.BUBBLE:
+			textArea.setText("Not yet implement ^^");
+			break;
+			
+		case Constants.BUCKET:
+			textArea.setText("Not yet implement ^^");
+			break;
+			
+		case Constants.MERGE:
+			textArea.setText("Not yet implement ^^");
+			break;
+
+		default:
+			break;
+		}
 		isStart = 1;
 
 		System.out.println("active threads: " + Thread.activeCount()); // current # of threads running

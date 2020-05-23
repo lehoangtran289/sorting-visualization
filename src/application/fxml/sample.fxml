@@ -13,54 +13,38 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1260.0"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="application.MainController">
+<AnchorPane prefHeight="720.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
 	<children>
-		<Pane layoutX="-1.0" prefHeight="126.0" prefWidth="934.0"
-			styleClass="head-background" stylesheets="@style.css"
-			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-			AnchorPane.topAnchor="0.0">
+		<Pane layoutX="-1.0" prefHeight="126.0" prefWidth="934.0" styleClass="head-background" stylesheets="@style.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<Label layoutX="220.0" layoutY="39.0"
-					text="SORTING ALGORITHMS VISUALIZATION" textFill="WHITE">
+				<Label layoutX="220.0" layoutY="39.0" text="SORTING ALGORITHMS VISUALIZATION" textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="26.0" />
 					</font>
 				</Label>
-				<Label layoutX="220.0" layoutY="76.0"
-					text="OOLT Mini Project 6 - Group 3" textFill="WHITE">
+				<Label layoutX="220.0" layoutY="76.0" text="OOLT Mini Project 6 - Group 3" textFill="WHITE">
 					<font>
 						<Font size="17.0" />
 					</font>
 				</Label>
-				<Button layoutX="1096.0" layoutY="75.0"
-					mnemonicParsing="false" onAction="#creditButtonClick"
-					prefHeight="25.0" prefWidth="132.0"
-					style="-fx-background-color: #b09dfc;" text="CREDITS"
-					textFill="WHITE">
+				<Button layoutX="1096.0" layoutY="75.0" mnemonicParsing="false" onAction="#creditButtonClick" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #b09dfc;" text="CREDITS" textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="13.0" />
 					</font>
 				</Button>
 			</children>
 		</Pane>
-		<VBox layoutY="126.0" prefHeight="533.0" prefWidth="307.0"
-			style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0"
-			AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="126.0">
+		<VBox layoutY="126.0" prefHeight="533.0" prefWidth="307.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="126.0">
 			<children>
 				<Pane prefHeight="45.0" prefWidth="307.0" />
 				<Pane prefHeight="48.0" prefWidth="307.0">
 					<children>
-						<Label layoutX="43.0" layoutY="15.0" prefHeight="20.0"
-							prefWidth="99.0" text="ALGORITHMS">
+						<Label layoutX="43.0" layoutY="15.0" prefHeight="20.0" prefWidth="99.0" text="ALGORITHMS">
 							<font>
 								<Font size="14.0" />
 							</font>
 						</Label>
-						<ImageView fitHeight="25.0" fitWidth="37.0"
-							layoutX="10.0" layoutY="12.0" pickOnBounds="true"
-							preserveRatio="true">
+						<ImageView fitHeight="25.0" fitWidth="37.0" layoutX="10.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
 							<image>
 								<Image url="@../../resources/icons8-list-96.png" />
 							</image>
@@ -68,9 +52,7 @@
 					</children>
 				</Pane>
 
-				<ComboBox fx:id="algorithmsBox"
-					onAction="#algorithmsBoxChange" prefHeight="25.0" prefWidth="225.0"
-					promptText="Select Algorithm">
+				<ComboBox fx:id="algorithmsBox" onAction="#algorithmsBoxChange" prefHeight="25.0" prefWidth="225.0">
 					<VBox.margin>
 						<Insets left="44.0" top="3.0" />
 					</VBox.margin>
@@ -80,15 +62,12 @@
 				</ComboBox>
 				<Pane prefHeight="48.0" prefWidth="307.0">
 					<children>
-						<Label layoutX="42.0" layoutY="15.0" prefHeight="20.0"
-							prefWidth="99.0" text="GRAPH TYPES">
+						<Label layoutX="42.0" layoutY="15.0" prefHeight="20.0" prefWidth="99.0" text="GRAPH TYPES">
 							<font>
 								<Font size="14.0" />
 							</font>
 						</Label>
-						<ImageView fitHeight="25.0" fitWidth="37.0"
-							layoutX="9.0" layoutY="12.0" pickOnBounds="true"
-							preserveRatio="true">
+						<ImageView fitHeight="25.0" fitWidth="37.0" layoutX="9.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
 							<image>
 								<Image url="@../../resources/icons8-graph-96.png" />
 							</image>
@@ -98,8 +77,7 @@
 						<Insets top="20.0" />
 					</VBox.margin>
 				</Pane>
-				<ComboBox fx:id="graphTypesBox"
-					onAction="#graphTypesBoxChange" prefHeight="25.0" prefWidth="225.0">
+				<ComboBox fx:id="graphTypesBox" onAction="#graphTypesBoxChange" prefHeight="25.0" prefWidth="225.0">
 					<padding>
 						<Insets left="10.0" />
 					</padding>
@@ -109,15 +87,12 @@
 				</ComboBox>
 				<Pane prefHeight="48.0" prefWidth="307.0">
 					<children>
-						<Label layoutX="42.0" layoutY="15.0" prefHeight="20.0"
-							prefWidth="99.0" text="CONTROLS">
+						<Label layoutX="42.0" layoutY="15.0" prefHeight="20.0" prefWidth="99.0" text="CONTROLS">
 							<font>
 								<Font size="14.0" />
 							</font>
 						</Label>
-						<ImageView fitHeight="25.0" fitWidth="37.0"
-							layoutX="9.0" layoutY="12.0" pickOnBounds="true"
-							preserveRatio="true">
+						<ImageView fitHeight="25.0" fitWidth="37.0" layoutX="9.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
 							<image>
 								<Image url="@../../resources/icons8-settings-250.png" />
 							</image>
@@ -129,49 +104,33 @@
 				</Pane>
 				<Pane prefHeight="44.0" prefWidth="307.0">
 					<children>
-						<Label fx:id="delayLabel" layoutX="33.0" layoutY="7.0"
-							prefHeight="19.0" prefWidth="99.0" text="Delay: 0 ms"
-							textFill="#000000b4">
+						<Label fx:id="delayLabel" layoutX="33.0" layoutY="7.0" prefHeight="19.0" prefWidth="99.0" text="Delay: 0 ms" textFill="#000000b4">
 							<font>
 								<Font size="13.0" />
 							</font>
 						</Label>
-						<Slider fx:id="delaySlider" blockIncrement="20.0"
-							layoutX="139.0" layoutY="10.0" majorTickUnit="20.0"
-							minorTickCount="1" prefHeight="14.0" prefWidth="143.0"
-							showTickLabels="true" showTickMarks="true" value="30.0" />
+						<Slider fx:id="delaySlider" blockIncrement="20.0" layoutX="139.0" layoutY="10.0" majorTickUnit="20.0" minorTickCount="1" prefHeight="14.0" prefWidth="143.0" showTickLabels="true" showTickMarks="true" value="30.0" />
 					</children>
 				</Pane>
 				<Pane prefHeight="44.0" prefWidth="307.0">
 					<children>
-						<Label fx:id="sizeLabel" layoutX="33.0" layoutY="13.0"
-							prefHeight="19.0" prefWidth="99.0" text="Array size:"
-							textFill="#000000b4">
+						<Label fx:id="sizeLabel" layoutX="33.0" layoutY="13.0" prefHeight="19.0" prefWidth="99.0" text="Array size:" textFill="#000000b4">
 							<font>
 								<Font size="13.0" />
 							</font>
 						</Label>
-						<Slider fx:id="sizeSlider" blockIncrement="1.0"
-							layoutX="139.0" layoutY="15.0" majorTickUnit="30.0" min="10.0"
-							minorTickCount="0" prefHeight="37.0" prefWidth="143.0"
-							showTickLabels="true" showTickMarks="true" snapToTicks="true"
-							value="10.0" />
+						<Slider fx:id="sizeSlider" blockIncrement="1.0" layoutX="139.0" layoutY="15.0" majorTickUnit="30.0" min="10.0" minorTickCount="0" prefHeight="37.0" prefWidth="143.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0" />
 					</children>
 				</Pane>
 				<Pane prefHeight="58.0" prefWidth="307.0">
 					<children>
-						<Button fx:id="sortButton" layoutX="42.0" layoutY="22.0"
-							mnemonicParsing="false" onAction="#sortButtonClick"
-							prefHeight="30.0" prefWidth="90.0" text="SORT" />
-						<Button layoutX="175.0" layoutY="22.0"
-							mnemonicParsing="false" onAction="#resetButtonClick"
-							prefHeight="30.0" prefWidth="90.0" text="RESET" />
+						<Button fx:id="sortButton" layoutX="42.0" layoutY="22.0" mnemonicParsing="false" onAction="#sortButtonClick" prefHeight="30.0" prefWidth="90.0" text="SORT" />
+						<Button layoutX="175.0" layoutY="22.0" mnemonicParsing="false" onAction="#resetButtonClick" prefHeight="30.0" prefWidth="90.0" text="RESET" />
 					</children>
 				</Pane>
 				<Pane prefHeight="159.0" prefWidth="307.0">
 					<children>
-						<TextArea fx:id="textArea" layoutX="15.0" layoutY="20.0"
-							prefHeight="126.0" prefWidth="277.0">
+						<TextArea fx:id="textArea" layoutX="15.0" layoutY="20.0" prefHeight="126.0" prefWidth="277.0">
 							<font>
 								<Font size="13.0" />
 							</font>
@@ -180,16 +139,12 @@
 				</Pane>
 			</children>
 			<effect>
-				<DropShadow blurType="GAUSSIAN" color="#00000021"
-					height="0.0" radius="9.1975" spread="0.13" width="38.79" />
+				<DropShadow blurType="GAUSSIAN" color="#00000021" height="0.0" radius="9.1975" spread="0.13" width="38.79" />
 			</effect>
 		</VBox>
-		<Pane layoutX="57.0" layoutY="23.0" prefHeight="137.0"
-			prefWidth="143.0"
-			style="-fx-background-color: #fff; -fx-background-radius: 10 10 10 10;">
+		<Pane layoutX="57.0" layoutY="23.0" prefHeight="137.0" prefWidth="143.0" style="-fx-background-color: #fff; -fx-background-radius: 10 10 10 10;">
 			<children>
-				<ImageView fitHeight="119.0" fitWidth="99.0"
-					layoutX="22.0" layoutY="7.0" pickOnBounds="true">
+				<ImageView fitHeight="119.0" fitWidth="99.0" layoutX="22.0" layoutY="7.0" pickOnBounds="true">
 					<image>
 						<Image url="@../../resources/logo.jpg" />
 					</image>
@@ -199,8 +154,6 @@
 				<DropShadow blurType="GAUSSIAN" color="#0000007a" />
 			</effect>
 		</Pane>
-		<Pane fx:id="mainPane" layoutX="335.0" layoutY="155.0"
-			prefHeight="548.0" prefWidth="908.0"
-			style="-fx-background-color: #fff;" />
+		<Pane fx:id="mainPane" layoutX="335.0" layoutY="155.0" prefHeight="548.0" prefWidth="908.0" style="-fx-background-color: #fff;" />
 	</children>
 </AnchorPane>
