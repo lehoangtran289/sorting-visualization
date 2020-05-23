@@ -1,5 +1,7 @@
 package application.task;
 
+import java.util.concurrent.ExecutionException;
+
 import application.MainService;
 import javafx.concurrent.Task;
 import javafx.scene.layout.Pane;
@@ -33,7 +35,7 @@ public abstract class SortTask extends Task<Void> {
 		return null;
 	}
 
-	public abstract void doSort() throws InterruptedException;
+	public abstract void doSort() throws InterruptedException, ExecutionException;
 
 	public void delay() throws InterruptedException {
 		Thread.sleep(delay);
