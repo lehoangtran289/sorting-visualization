@@ -60,6 +60,7 @@ public class MergeSort extends SortTask {
 		}
 		merged.addAll(left.subList(i, left.size()));
 		merged.addAll(right.subList(j, right.size()));
+		// clear pane and addAll "merged"
 		return merged;
 	}
 
