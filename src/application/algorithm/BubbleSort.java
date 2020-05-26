@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class BubbleSort extends SortTask {
@@ -38,11 +39,27 @@ public class BubbleSort extends SortTask {
 						Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
 						updateUITask.get(); // block thread until work complete:
 						delay();
-//						continue;
 					}
 					delay();
 				}
-
+			}
+		}
+		if (curGraphType == Constants.DOTS) {
+			for (int i = 0; i < size; i++) {
+				for (int j = i + 1; j < size; j++) {
+					Circle cur = service.getCircle(pane, i);
+					Circle temp = service.getCircle(pane, j);
+					if (cur.getCenterY() < temp.getCenterY()) {
+						FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
+							service.swapCircle(cur, temp); // code to update UI...
+							cur.setFill(prev);
+						}, /* return value from task: */ null);
+						Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
+						updateUITask.get(); // block thread until work complete:
+						delay();
+					}
+					delay();
+				}
 			}
 		}
 	}

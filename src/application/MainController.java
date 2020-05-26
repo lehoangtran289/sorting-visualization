@@ -66,6 +66,7 @@ public class MainController implements Initializable {
 	private MainService service = new MainService();
 
 	private SortTask sortTask;
+	
 
 	// ----FXML HANDLERS------------------------------------
 
@@ -162,10 +163,12 @@ public class MainController implements Initializable {
 			break;
 			
 		case Constants.BUCKET:
+			sortTask = new BucketSort(arraySize, delay, curGraphType, mainPane, service);
 			textArea.setText("Not yet implement ^^");
 			break;
 			
 		case Constants.MERGE:
+			sortTask = new MergeSort(arraySize, delay, curGraphType, mainPane, service);
 			textArea.setText("Not yet implement ^^");
 			break;
 

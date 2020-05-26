@@ -50,17 +50,18 @@ public class DoSortDemo extends Task<Void> {
 		if (curGraphType == Constants.BARS) {
 //			Rectangle cur = service.getRect(pane, 0);
 //			Rectangle min = service.getRect(pane, 1);
-//			System.out.println("X " + cur.getX() + "     " + min.getX());
-//
+//			System.out.println(cur);
+//			System.out.println(min);
+//			
 //			if (cur.getHeight() > min.getHeight()) {
 //				double tempx = min.getX() - cur.getX();
 //				SequentialTransition trans = new SequentialTransition();
 //				trans.getChildren().clear();
 //
-//				TranslateTransition tt1 = new TranslateTransition(Duration.millis(1000), cur);
+//				TranslateTransition tt1 = new TranslateTransition(Duration.millis(delay), cur);
 //				tt1.setToX(tempx);
 //
-//				TranslateTransition tt2 = new TranslateTransition(Duration.millis(1000), min);
+//				TranslateTransition tt2 = new TranslateTransition(Duration.millis(delay), min);
 //				tt2.setToX(-tempx);
 //
 //				trans.getChildren().add(new ParallelTransition(tt1, tt2));
@@ -68,19 +69,26 @@ public class DoSortDemo extends Task<Void> {
 //				trans.play();
 //
 //				trans.setOnFinished((e) -> {
+//					String temp = cur.getId();
 //					cur.setX(cur.getX() + cur.getTranslateX());
 //					cur.setTranslateX(0);
+//					cur.setId(min.getId());
 //					min.setX(min.getX() + min.getTranslateX());
 //					min.setTranslateX(0);
+//					min.setId(temp);
 //				});
+//				System.out.println(cur.getX() + " " + cur.getHeight());
+//				System.out.println(min.getX() + " " + min.getHeight());
 //			}
-			
+			SequentialTransition trans = new SequentialTransition();
 			for (int i = 0; i < size - 1; i++) {
 				Rectangle cur = service.getRect(pane, i);
 				Rectangle min = service.getRect(pane, i);
+				System.out.println("\n---\n" + cur);
+				System.out.println(min + "\n--");
+				
 				for (int j = i + 1; j < size; j++) {
 					Rectangle temp = service.getRect(pane, j);
-					Thread.sleep(delay);
 					if (min.getHeight() > temp.getHeight()) {
 						min = temp;
 					}
@@ -89,36 +97,33 @@ public class DoSortDemo extends Task<Void> {
 				// -----
 				Rectangle cur2 = cur;
 				Rectangle min2 = min;
-				String id1 = cur.getId();
-				String id2 = min2.getId();
+				System.out.println("2" + cur);
+				System.out.println("2" + min2);
 				double tempx = min2.getX() - cur.getX();
-				SequentialTransition trans = new SequentialTransition();
-				trans.getChildren().clear();
 
-				TranslateTransition tt1 = new TranslateTransition(Duration.millis(delay), cur);
+				TranslateTransition tt1 = new TranslateTransition(Duration.millis(delay * 10), cur);
 				tt1.setToX(tempx);
 
-				TranslateTransition tt2 = new TranslateTransition(Duration.millis(delay), min2);
+				TranslateTransition tt2 = new TranslateTransition(Duration.millis(delay * 10), min2);
 				tt2.setToX(-tempx);
 
 				trans.getChildren().add(new ParallelTransition(tt1, tt2));
-
-				trans.play();
-
+				
 				trans.setOnFinished((e) -> {
-					cur2.setX(cur2.getX() + cur2.getTranslateX());
-					cur2.setTranslateX(0);
-					cur2.setId(id2);
+					String temp = cur.getId();
+					cur.setX(cur.getX() + cur.getTranslateX());
+					cur.setTranslateX(0);
+					cur.setId(min2.getId());
 					min2.setX(min2.getX() + min2.getTranslateX());
 					min2.setTranslateX(0);
-					min2.setId(id1);
+					min2.setId(temp);
+					System.out.println("finished");
 				});
-				// -----
-
-//				cur.setFill(prev);
+				
+				trans.play();
 			}
 		}
-		
+
 		if (curGraphType == Constants.DOTS)
 			for (int i = 0; i < size; i++) {
 				Circle cur = service.getCircle(pane, i);
