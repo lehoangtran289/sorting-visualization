@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import application.algorithm.SelectionSort;
+import application.algorithm.*;
 import application.task.SortTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -158,7 +158,7 @@ public class MainController implements Initializable {
 			break;
 		
 		case Constants.BUBBLE:
-			textArea.setText("Not yet implement ^^");
+			sortTask = new BubbleSort(arraySize, delay, curGraphType, mainPane, service);
 			break;
 			
 		case Constants.BUCKET:
