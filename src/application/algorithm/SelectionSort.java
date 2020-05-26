@@ -74,7 +74,7 @@ public class SelectionSort extends SortTask {
 					Platform.runLater(() -> {
 						temp.setFill(red);
 					});
-					delay();
+//					delay();
 					if (min.getCenterY() < temp.getCenterY()) {
 						min = temp;
 					}
@@ -92,7 +92,7 @@ public class SelectionSort extends SortTask {
 				Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
 				updateUITask.get(); // block until work complete:
 
-				delay();
+//				delay();
 			}
 		}
 	}
