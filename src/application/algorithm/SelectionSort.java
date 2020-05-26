@@ -34,7 +34,6 @@ public class SelectionSort extends SortTask {
 					cur.setFill(green);
 				});
 				Rectangle min = service.getRect(pane, i);
-
 				for (int j = i + 1; j < size; j++) {
 					Rectangle temp = service.getRect(pane, j);
 					Platform.runLater(() -> {
@@ -43,13 +42,18 @@ public class SelectionSort extends SortTask {
 //					delay();
 					if (min.getHeight() > temp.getHeight()) {
 						min = temp;
+						Platform.runLater(() -> {
+							temp.setFill(prev);
+						});
+						delay();
+						continue;
 					}
 					delay();
 					Platform.runLater(() -> {
 						temp.setFill(prev);
 					});
 				}
-
+				
 				Rectangle min2 = min;
 				FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
 					service.swapRectangle(cur, min2); // code to update UI...
