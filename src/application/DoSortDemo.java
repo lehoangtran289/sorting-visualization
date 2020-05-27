@@ -1,7 +1,9 @@
 package application;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.concurrent.Task;
 import javafx.scene.layout.Pane;
@@ -52,6 +54,8 @@ public class DoSortDemo extends Task<Void> {
 //			Rectangle min = service.getRect(pane, 1);
 //			System.out.println(cur);
 //			System.out.println(min);
+//			System.out.println(cur.getX() + " "+ cur.getLayoutX() + " " + cur.getTranslateX());
+//			System.out.println(min.getX() + " "+ min.getLayoutX() + " " + min.getTranslateX());
 //			
 //			if (cur.getHeight() > min.getHeight()) {
 //				double tempx = min.getX() - cur.getX();
@@ -67,8 +71,12 @@ public class DoSortDemo extends Task<Void> {
 //				trans.getChildren().add(new ParallelTransition(tt1, tt2));
 //
 //				trans.play();
-//
+//				
 //				trans.setOnFinished((e) -> {
+//					System.out.println(cur.getX() + " " + cur.getHeight());
+//					System.out.println(min.getX() + " " + min.getHeight());
+//					System.out.println(cur.getX() + " " + cur.getTranslateX());
+//					System.out.println(min.getX() + " " + min.getTranslateX());
 //					String temp = cur.getId();
 //					cur.setX(cur.getX() + cur.getTranslateX());
 //					cur.setTranslateX(0);
@@ -76,17 +84,18 @@ public class DoSortDemo extends Task<Void> {
 //					min.setX(min.getX() + min.getTranslateX());
 //					min.setTranslateX(0);
 //					min.setId(temp);
+//					System.out.println(service.getRect(pane, 0));
+//					System.out.println(service.getRect(pane, 1));
 //				});
-//				System.out.println(cur.getX() + " " + cur.getHeight());
-//				System.out.println(min.getX() + " " + min.getHeight());
+//				
 //			}
-			SequentialTransition trans = new SequentialTransition();
+
 			for (int i = 0; i < size - 1; i++) {
 				Rectangle cur = service.getRect(pane, i);
 				Rectangle min = service.getRect(pane, i);
 				System.out.println("\n---\n" + cur);
 				System.out.println(min + "\n--");
-				
+
 				for (int j = i + 1; j < size; j++) {
 					Rectangle temp = service.getRect(pane, j);
 					if (min.getHeight() > temp.getHeight()) {
@@ -95,6 +104,8 @@ public class DoSortDemo extends Task<Void> {
 				}
 //				service.swapRectangle(cur, min);
 				// -----
+				SequentialTransition trans = new SequentialTransition();
+				trans.getChildren().clear();
 				Rectangle cur2 = cur;
 				Rectangle min2 = min;
 				System.out.println("2" + cur);
@@ -107,9 +118,24 @@ public class DoSortDemo extends Task<Void> {
 				TranslateTransition tt2 = new TranslateTransition(Duration.millis(delay * 10), min2);
 				tt2.setToX(-tempx);
 
-				trans.getChildren().add(new ParallelTransition(tt1, tt2));
+				ParallelTransition pTrans = new ParallelTransition(tt1, tt2);
+
+//				trans.setOnFinished((e) -> {
+//					String temp = cur.getId();
+//					cur.setX(cur.getX() + cur.getTranslateX());
+//					cur.setTranslateX(0);
+//					cur.setId(min2.getId());
+//					min2.setX(min2.getX() + min2.getTranslateX());
+//					min2.setTranslateX(0);
+//					min2.setId(temp);
+//					System.out.println("finished");
+//				});
+
+				trans.getChildren().add(pTrans);
 				
-				trans.setOnFinished((e) -> {
+				trans.play();
+
+				pTrans.setOnFinished((e)-> {
 					String temp = cur.getId();
 					cur.setX(cur.getX() + cur.getTranslateX());
 					cur.setTranslateX(0);
@@ -117,10 +143,9 @@ public class DoSortDemo extends Task<Void> {
 					min2.setX(min2.getX() + min2.getTranslateX());
 					min2.setTranslateX(0);
 					min2.setId(temp);
-					System.out.println("finished");
 				});
 				
-				trans.play();
+
 			}
 		}
 

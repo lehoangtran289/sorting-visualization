@@ -156,6 +156,7 @@ public class MainController implements Initializable {
 		switch (curAlgo) {
 		case Constants.SELECTION:
 			sortTask = new SelectionSort(arraySize, delay, curGraphType, mainPane, service); // call Sort Task
+//			sortTask = new DoSortDemo(arraySize, delay, curGraphType, mainPane, service);
 			break;
 		
 		case Constants.BUBBLE:
