@@ -3,6 +3,7 @@ package application.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -91,10 +92,12 @@ public class MergeSort extends SortTask {
 			if (temp instanceof Circle)
 				((Circle) temp).setCenterX(xpart * ids.get(i) + ((Circle) temp).getRadius());
 
-			Platform.runLater(() -> {
+			FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
 				pane.getChildren().remove(merged.get(j));
 				pane.getChildren().add(temp);
-			});
+			}, null);
+			Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
+			updateUITask.get(); // block thread until work complete:
 
 			delay();
 		}
