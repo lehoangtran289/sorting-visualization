@@ -60,7 +60,7 @@ public class MainController implements Initializable {
 	private int isStart = 0; // check if sort start
 	private String curAlgo; // current algo being selected
 	private String curGraphType; // current graph type being selected
-	private int arraySize = 1000; // init array size
+	private int arraySize = 10; // init array size
 	private int delay = 30; // init delay time
 
 	private MainService service = new MainService();
