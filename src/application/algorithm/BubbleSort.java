@@ -28,20 +28,33 @@ public class BubbleSort extends SortTask {
 
 		if (curGraphType == Constants.BARS) { // if current graph is bars
 			for (int i = 0; i < size - 1; i++) {
+				Rectangle cur = service.getRect(pane, i);
+				Platform.runLater(() -> {
+					cur.setFill(green);
+				});
 				for (int j = i + 1; j < size; j++) {
-					Rectangle cur = service.getRect(pane, i);
 					Rectangle temp = service.getRect(pane, j);
+					Platform.runLater(() -> {
+						temp.setFill(red);
+					});
+					
 					if (cur.getHeight() > temp.getHeight()) {
 						FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
 							service.swapRectangle(cur, temp); // code to update UI...
-							cur.setFill(prev);
+							temp.setFill(green);
 						}, /* return value from task: */ null);
 						Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
 						updateUITask.get(); // block thread until work complete:
 						delay();
 					}
 					delay();
+					Platform.runLater(() -> {
+						temp.setFill(prev);
+					});
 				}
+				Platform.runLater(() -> {
+					cur.setFill(prev);
+				});
 			}
 		}
 		if (curGraphType == Constants.DOTS) {
