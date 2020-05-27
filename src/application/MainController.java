@@ -141,7 +141,7 @@ public class MainController implements Initializable {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Credit");
 		alert.setHeaderText("JavaFX OOLT Project 6: Sorting Algorithms Visualization");
-		alert.setContentText("Tran Le Hoang - 20176764\nTran Hai Son - 2017xxxx\nHoang Tuan Anh Van - 20170224");
+		alert.setContentText("Tran Le Hoang - 20176764\nTran Hai Son - 20176861\nHoang Tuan Anh Van - 20170224");
 		alert.show();
 	}
 
