@@ -170,7 +170,6 @@ public class MainController implements Initializable {
 			
 		case Constants.MERGE:
 			sortTask = new MergeSort(arraySize, delay, curGraphType, mainPane, service);
-			textArea.setText("Not yet implement ^^");
 			break;
 
 		default:
