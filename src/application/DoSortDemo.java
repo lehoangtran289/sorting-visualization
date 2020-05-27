@@ -112,10 +112,12 @@ public class DoSortDemo extends Task<Void> {
 				System.out.println("2" + min2);
 				double tempx = min2.getX() - cur.getX();
 
-				TranslateTransition tt1 = new TranslateTransition(Duration.millis(delay * 10), cur);
+				TranslateTransition tt1 = new TranslateTransition();
+				tt1.setNode(cur2);
 				tt1.setToX(tempx);
 
-				TranslateTransition tt2 = new TranslateTransition(Duration.millis(delay * 10), min2);
+				TranslateTransition tt2 = new TranslateTransition();
+				tt2.setNode(min2);
 				tt2.setToX(-tempx);
 
 				ParallelTransition pTrans = new ParallelTransition(tt1, tt2);
