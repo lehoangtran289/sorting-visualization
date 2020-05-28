@@ -120,7 +120,7 @@ public class BucketSort extends SortTask {
 				for (int i = 0; i < bkt.size(); ++i) {
 					int pos1 = pos;
 					Circle newCircle = bkt.get(i);
-					newCircle.setCenterX(pos1 * xpart);
+					newCircle.setCenterX(pos1 * xpart + newCircle.getRadius());
 					Platform.runLater(() -> {
 						pane.getChildren().add(newCircle);
 					});
@@ -147,84 +147,16 @@ public class BucketSort extends SortTask {
 				delay();
 				for (int i = 0; i < bkt.size(); ++i) {	// add sorted circles in each buckets to pane
 					Circle newCircle = bkt.get(i);
-					newCircle.setCenterX(xpart * pos1);
+					newCircle.setCenterX(xpart * pos1 + newCircle.getRadius());
 					Platform.runLater(() -> {
 						pane.getChildren().add(newCircle);
 					});
 					pos1++;
 					delay();
-					System.out.println(newCircle.getCenterY());
 				}
 				delay();
 			}
 		}
-			
-			
-			// Place buckets to pane by order
-//			int pos = 0;
-//			for (int i = 0; i < buckets.size(); i++) {
-//				int pos1 = pos;
-//				for (int j = 0; j < buckets.get(i).size(); j++) {
-//					Rectangle oldRect = service.getRect(pane, pos);
-//					
-//					FutureTask<Void> rmRect = new FutureTask<Void>(() -> {
-//						pane.getChildren().remove(oldRect);
-//					}, /* return value from task: */ null);
-//					Platform.runLater(rmRect);
-//					System.out.println(oldRect);
-//					
-//					pos++;
-//					delay();
-//				}
-//				delay();
-//				for (int j = 0; j < buckets.get(i).size(); j++) {
-//					Rectangle newRect = buckets.get(i).get(j);
-//					newRect.setX(xpart * pos1);
-//					FutureTask<Void> insRect = new FutureTask<Void>(() -> {
-//						pane.getChildren().add(newRect);
-//					}, /* return value from task: */ null);
-//					Platform.runLater(insRect);
-//					pos1++;
-//					delay();
-//				}
-//				System.out.println(pos);
-//				delay();
-//				delay();
-//			}
-//			delay();
-//			delay();
-
-			// Sort each bucket
-//			for (int i = 0; i < buckets.size(); i++) {
-//				buckets.get(i).sort((r1, r2) -> {
-//					return (int) (r1.getHeight() - r2.getHeight());
-//				});
-//			}
-
-			// merge buckets to get the final order
-//			List<Rectangle> sortedRects = new ArrayList<>();
-//			for (List<Rectangle> bucket : buckets) {
-//				sortedRects.addAll(bucket);
-//			}
-//
-//			// remove all rectangles in pane
-//			for (int i = 0; i < size; i++) {
-//				Rectangle oldRect = service.getRect(pane, i);
-//				Platform.runLater(() -> {
-//					pane.getChildren().remove(oldRect);
-//				});
-//				delay();
-//			}
-//
-//			// place rectangles in pane in sorted order
-//			for (int i = 0; i < sortedRects.size(); ++i) {
-//				Rectangle newRect = sortedRects.get(i);
-//				newRect.setX(xpart * i);
-//				Platform.runLater(() -> {
-//					pane.getChildren().add(newRect);
-//				});
-//				delay();
-//			}
 	}
 
 }
