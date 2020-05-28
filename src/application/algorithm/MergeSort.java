@@ -57,6 +57,7 @@ public class MergeSort extends SortTask {
 
 		// list of ids to update ui of each rectangle
 		List<Integer> ids = idList.stream().sorted().collect(Collectors.toList());
+		System.out.println(ids);
 
 		// -- merge logic
 		int leftIndex = 0;
@@ -84,8 +85,8 @@ public class MergeSort extends SortTask {
 		// done merge --> update ui
 		// clear pane in range and add "merged"
 		for (int i = 0; i < merged.size(); i++) {
-			int j = i;
 			Shape temp = merged.get(i); // get item in merged list
+			int j = i;
 
 			if (temp instanceof Rectangle)
 				((Rectangle) temp).setX(xpart * ids.get(i)); // set X to locate from the start of left list
