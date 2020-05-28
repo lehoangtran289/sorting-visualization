@@ -3,8 +3,6 @@ package application.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 import application.Constants;
@@ -12,18 +10,15 @@ import application.MainService;
 import application.task.SortTask;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class BucketSort extends SortTask{
+public class BucketSort extends SortTask {
 	private double xpart = pane.getPrefWidth() / size;
 
 	public BucketSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay  * 10, curGraphType, pane, service);
+		super(size, delay * 10, curGraphType, pane, service);
 	}
-	
+
 	private static int getBucket(double h, double maxHeight, int bucketNumber) {
 		return (int) ((double) h / maxHeight * (bucketNumber - 1));
 	}
@@ -33,10 +28,10 @@ public class BucketSort extends SortTask{
 		double maxHeight = pane.getPrefHeight();
 		final int bucketNumber = (int) Math.sqrt(size);
 		List<List<Rectangle>> buckets = new ArrayList<>(bucketNumber);
-		
-		for (int i = 0; i < bucketNumber; i++) 
+
+		for (int i = 0; i < bucketNumber; i++)
 			buckets.add(new ArrayList<>());
-		
+
 		if (curGraphType == Constants.BARS) { // if current graph is bars
 			// Distribute rectangles
 			for (int i = 0; i < size; i++) {
@@ -44,7 +39,7 @@ public class BucketSort extends SortTask{
 				double h = cur.getHeight();
 				buckets.get(getBucket(h, maxHeight, bucketNumber)).add(cur);
 			}
-			
+
 			// Place buckets to pane by order
 			int pos = 0;
 			for (int i = 0; i < buckets.size(); i++) {
@@ -76,20 +71,20 @@ public class BucketSort extends SortTask{
 			}
 			delay();
 			delay();
-			
+
 			// Sort each bucket
 			for (int i = 0; i < buckets.size(); i++) {
-				buckets.get(i).sort( (r1, r2) -> {
+				buckets.get(i).sort((r1, r2) -> {
 					return (int) (r1.getHeight() - r2.getHeight());
-				} );
+				});
 			}
-			
+
 			// merge buckets to get the final order
 			List<Rectangle> sortedRects = new ArrayList<>();
 			for (List<Rectangle> bucket : buckets) {
 				sortedRects.addAll(bucket);
 			}
-			
+
 			// remove all rectangles in pane
 			for (int i = 0; i < size; i++) {
 				Rectangle oldRect = service.getRect(pane, i);
@@ -98,7 +93,7 @@ public class BucketSort extends SortTask{
 				});
 				delay();
 			}
-			
+
 			// place rectangles in pane in sorted order
 			for (int i = 0; i < sortedRects.size(); ++i) {
 				Rectangle newRect = sortedRects.get(i);
@@ -110,6 +105,5 @@ public class BucketSort extends SortTask{
 			}
 		}
 	}
-
 
 }
