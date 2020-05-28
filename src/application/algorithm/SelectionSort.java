@@ -23,9 +23,9 @@ public class SelectionSort extends SortTask {
 	// NOTE: modify UI must be done in Platform.runLater()
 	@Override
 	public void doSort() throws InterruptedException, ExecutionException {
-		Color prev = Color.rgb(157, 133, 255);
-		Paint green = Color.LIGHTGREEN;
-		Paint red = Color.INDIANRED;
+		Color prev = (Color) Constants.PRIMARY;
+		Paint green = (Color) Constants.GREEN;
+		Paint red = (Color) Constants.RED;
 
 		if (curGraphType == Constants.BARS) {		// if current graph is bars
 			for (int i = 0; i < size - 1; i++) {

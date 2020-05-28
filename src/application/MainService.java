@@ -34,7 +34,7 @@ public class MainService {
 			
 			// config rectangle
 			Rectangle r = new Rectangle(0, 0, xpart, randomY * ypart);
-			r.setFill(Color.rgb(157, 133, 255));
+			r.setFill(Constants.PRIMARY);
 			r.setStroke(Color.WHITE);
 			if (size >= 150)
 				r.setStrokeWidth(0.1);
@@ -64,7 +64,7 @@ public class MainService {
 			Circle c = new Circle(radius); 		
 			c.setCenterX(i * radius * 2 + radius);
 			c.setCenterY(randomY * ypart + radius);
-			c.setFill(Color.rgb(157, 133, 255));
+			c.setFill(Constants.PRIMARY);
 			c.setId(i + "");
 			
 			//add circle to pane
