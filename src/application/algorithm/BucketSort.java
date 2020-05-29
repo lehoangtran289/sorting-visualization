@@ -41,15 +41,16 @@ public class BucketSort extends SortTask {
 				Rectangle cur = service.getRect(pane, i);
 				double h = cur.getHeight();
 				buckets.get(getBucket(h, maxHeight, bucketNumber)).add(cur);
+				delay();
 			}
 			
 			for (int i = 0; i < size; i++) {
 				Rectangle r = service.getRect(pane, i);
 				FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
 					pane.getChildren().remove(r);
-				}, /* return value from task: */ null);
-				Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
-				updateUITask.get(); // block thread until work complete:
+				}, null);
+				Platform.runLater(updateUITask); 
+				updateUITask.get(); 
 			}
 			
 			// Place buckets to pane by order
@@ -109,13 +110,16 @@ public class BucketSort extends SortTask {
 				Circle cur = service.getCircle(pane, i);
 				double h = maxHeight - cur.getCenterY();
 				buckets.get(getBucket(h, maxHeight, bucketNumber)).add(cur);
+				delay();
 			}
 			
 			for (int i = 0; i < size; i++) {
 				Circle c = service.getCircle(pane, i);
-				Platform.runLater(() -> {
+				FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
 					pane.getChildren().remove(c);
-				});
+				}, null);
+				Platform.runLater(updateUITask); 
+				updateUITask.get(); 
 			}
 			
 			// Place buckets to pane by order
