@@ -3,6 +3,7 @@ package application.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 import application.Constants;
 import application.MainService;
@@ -44,9 +45,11 @@ public class BucketSort extends SortTask {
 			
 			for (int i = 0; i < size; i++) {
 				Rectangle r = service.getRect(pane, i);
-				Platform.runLater(() -> {
+				FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
 					pane.getChildren().remove(r);
-				});
+				}, /* return value from task: */ null);
+				Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
+				updateUITask.get(); // block thread until work complete:
 			}
 			
 			// Place buckets to pane by order
@@ -60,8 +63,9 @@ public class BucketSort extends SortTask {
 						pane.getChildren().add(newRect);
 					});
 					pos++;
-					delay();
+//					delay();
 				}
+				delay();
 				delay();
 			}
 			
