@@ -165,7 +165,6 @@ public class MainController implements Initializable {
 			
 		case Constants.BUCKET:
 			sortTask = new BucketSort(arraySize, delay, curGraphType, mainPane, service);
-			textArea.setText("Not yet implement ^^");
 			break;
 			
 		case Constants.MERGE:
