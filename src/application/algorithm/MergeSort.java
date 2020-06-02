@@ -7,8 +7,8 @@ import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import application.Constants;
-import application.MainService;
+import application.constant.Constants;
+import application.service.MainService;
 import application.task.SortTask;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
@@ -84,6 +84,16 @@ public class MergeSort extends SortTask {
 
 		// done merge --> update ui
 		// clear pane in range and add "merged"
+
+//		for (int i = 0; i < merged.size(); i++) {
+//			int j = i;
+//			FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
+//				pane.getChildren().remove(merged.get(j));
+//			}, null);
+//			Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
+//			updateUITask.get(); // block thread until work complete:
+//		}
+		
 		for (int i = 0; i < merged.size(); i++) {
 			Shape temp = merged.get(i); // get item in merged list
 			int j = i;

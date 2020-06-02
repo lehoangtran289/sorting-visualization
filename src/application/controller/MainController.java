@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -6,7 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import application.algorithm.*;
+import application.algorithm.BubbleSort;
+import application.algorithm.BucketSort;
+import application.algorithm.MergeSort;
+import application.algorithm.SelectionSort;
+import application.constant.Constants;
+import application.service.MainService;
 import application.task.SortTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-import application.Constants;
-import application.MainService;
+import application.constant.Constants;
+import application.service.MainService;
 import application.task.SortTask;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;

@@ -2,7 +2,7 @@ package application.task;
 
 import java.util.concurrent.ExecutionException;
 
-import application.MainService;
+import application.service.MainService;
 import javafx.concurrent.Task;
 import javafx.scene.layout.Pane;
 
