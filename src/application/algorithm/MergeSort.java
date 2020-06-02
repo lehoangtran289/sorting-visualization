@@ -82,21 +82,21 @@ public class MergeSort extends SortTask {
 		merged.addAll(left.subList(leftIndex, left.size()));
 		merged.addAll(right.subList(rightIndex, right.size()));
 
-		// done merge --> update ui
-		// clear pane in range and add "merged"
-
-//		for (int i = 0; i < merged.size(); i++) {
-//			int j = i;
-//			FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
-//				pane.getChildren().remove(merged.get(j));
-//			}, null);
-//			Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
-//			updateUITask.get(); // block thread until work complete:
-//		}
+		// done merge --> update ui by clearing pane in range and adding "merged"
 		
+		// clear pane
+		for (int i = 0; i < merged.size(); i++) {
+			int j = i;
+			FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
+				pane.getChildren().remove(merged.get(j));
+			}, null);
+			Platform.runLater(updateUITask); 
+			updateUITask.get(); 
+		}
+		
+		// add merged rectangle to pane
 		for (int i = 0; i < merged.size(); i++) {
 			Shape temp = merged.get(i); // get item in merged list
-			int j = i;
 
 			if (temp instanceof Rectangle)
 				((Rectangle) temp).setX(xpart * ids.get(i)); // set X to locate from the start of left list
@@ -104,11 +104,11 @@ public class MergeSort extends SortTask {
 				((Circle) temp).setCenterX(xpart * ids.get(i) + ((Circle) temp).getRadius());
 
 			FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
-				pane.getChildren().remove(merged.get(j));
+//				pane.getChildren().remove(merged.get(j));
 				pane.getChildren().add(temp);
 			}, null);
-			Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
-			updateUITask.get(); // block thread until work complete:
+			Platform.runLater(updateUITask); 
+			updateUITask.get(); 
 
 			delay();
 		}
@@ -116,114 +116,4 @@ public class MergeSort extends SortTask {
 
 		return merged;
 	}
-
-//	public List<Rectangle> sortedR(List<Rectangle> list) throws InterruptedException, ExecutionException {
-//		if (list.size() < 2) {
-//			return list;
-//		}
-//		int mid = list.size() / 2;
-//		return mergedR(sortedR(list.subList(0, mid)), sortedR(list.subList(mid, list.size())));
-//	}
-//
-//	public List<Rectangle> mergedR(List<Rectangle> left, List<Rectangle> right)
-//			throws InterruptedException, ExecutionException {
-//
-//		List<Integer> idList = new ArrayList<>();
-//		left.forEach(i -> idList.add(Integer.parseInt(i.getId())));
-//		right.forEach(i -> idList.add(Integer.parseInt(i.getId())));
-//
-//		// list of ids to update ui of each rectangle
-//		List<Integer> ids = idList.stream().sorted().collect(Collectors.toList());
-//
-//		// -- merge logic
-//
-//		int leftIndex = 0;
-//		int rightIndex = 0;
-//		List<Rectangle> merged = new ArrayList<>();
-//
-//		while (leftIndex < left.size() && rightIndex < right.size()) {
-//			if (left.get(leftIndex).getHeight() < right.get(rightIndex).getHeight()) {
-//				merged.add(left.get(leftIndex++));
-//			} else {
-//				merged.add(right.get(rightIndex++));
-//			}
-//		}
-//		merged.addAll(left.subList(leftIndex, left.size()));
-//		merged.addAll(right.subList(rightIndex, right.size()));
-//
-//		// done merge --> update ui
-//		// clear pane in range and add "merged"
-//		for (int i = 0; i < merged.size(); i++) {
-//			int j = i;
-//			Rectangle temp = merged.get(i); // get item in merged list
-//			temp.setX(xpart * ids.get(i)); // set that item's X to locate from the start of left list
-//			Platform.runLater(() -> {
-//				pane.getChildren().remove(merged.get(j));
-//				pane.getChildren().add(temp);
-//			});
-//			delay();
-//		}
-//		delay();
-//
-//		return merged;
-//	}
-//
-//	public List<Circle> sortedC(List<Circle> list) throws InterruptedException, ExecutionException {
-//		if (list.size() < 2) {
-//			return list;
-//		}
-//		int mid = list.size() / 2;
-//		return mergedC(sortedC(list.subList(0, mid)), sortedC(list.subList(mid, list.size())));
-//	}
-//
-//	public List<Circle> mergedC(List<Circle> left, List<Circle> right) throws InterruptedException, ExecutionException {
-//
-//		List<Integer> idList = new ArrayList<>();
-//		left.forEach(i -> idList.add(Integer.parseInt(i.getId())));
-//		right.forEach(i -> idList.add(Integer.parseInt(i.getId())));
-//
-//		// list of ids to update ui of each rectangle
-//		List<Integer> ids = idList.stream().sorted().collect(Collectors.toList());
-//
-//		// -- merge logic
-//
-//		int leftIndex = 0;
-//		int rightIndex = 0;
-//		List<Circle> merged = new ArrayList<>();
-//
-//		while (leftIndex < left.size() && rightIndex < right.size()) {
-//			if (left.get(leftIndex).getCenterY() > right.get(rightIndex).getCenterY()) {
-//				merged.add(left.get(leftIndex++));
-//			} else {
-//				merged.add(right.get(rightIndex++));
-//			}
-//		}
-//		merged.addAll(left.subList(leftIndex, left.size()));
-//		merged.addAll(right.subList(rightIndex, right.size()));
-//
-//		// done merge --> update ui
-//		// clear pane in range and add "merged"
-//		for (int i = 0; i < merged.size(); i++) {
-//			int j = i;
-//			Circle temp = merged.get(i); // get item in merged list
-//			temp.setCenterX(xpart * ids.get(i) + temp.getRadius()); // set that item's X to locate from the start of
-//																	// left list
-//			Platform.runLater(() -> {
-//				pane.getChildren().remove(merged.get(j));
-//				pane.getChildren().add(temp);
-//			});
-//			delay();
-//		}
-//		delay();
-//
-//		return merged;
-//	}
-//
-//	public Rectangle findRectWithX(double x) { // not use yet
-//		Optional<Node> res = pane.getChildren().stream().filter(i -> ((Rectangle) i).getX() == x).findFirst();
-//		if (!res.isEmpty())
-//			return (Rectangle) res.get();
-//		return null;
-//	}
-
 }

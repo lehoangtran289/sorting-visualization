@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 public class BubbleSort extends SortTask {
 
 	public BubbleSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay, curGraphType, pane, service);
+		super(size, delay * 3, curGraphType, pane, service);
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class BubbleSort extends SortTask {
 		Paint green = (Color) Constants.GREEN;
 		Paint red = (Color) Constants.RED;
 
-		if (curGraphType == Constants.BARS) { // if current graph is bars
+		if (curGraphType == Constants.BARS) { 
 			for (int i = 0; i < size - 1; i++) {
 				Rectangle cur = service.getRect(pane, i);
 				Platform.runLater(() -> {
@@ -39,11 +39,11 @@ public class BubbleSort extends SortTask {
 					
 					if (cur.getHeight() > temp.getHeight()) {
 						FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
-							service.swapRectangle(cur, temp); // code to update UI...
+							service.swapRectangle(cur, temp); 
 							temp.setFill(green);
-						}, /* return value from task: */ null);
-						Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
-						updateUITask.get(); // block thread until work complete:
+						}, null);
+						Platform.runLater(updateUITask);
+						updateUITask.get(); 
 						delay();
 					}
 					delay();
@@ -58,20 +58,33 @@ public class BubbleSort extends SortTask {
 		}
 		if (curGraphType == Constants.DOTS) {
 			for (int i = 0; i < size; i++) {
+				Circle cur = service.getCircle(pane, i);
+				Platform.runLater(() -> {
+					cur.setFill(green);
+				});
 				for (int j = i + 1; j < size; j++) {
-					Circle cur = service.getCircle(pane, i);
 					Circle temp = service.getCircle(pane, j);
+					Platform.runLater(() -> {
+						temp.setFill(red);
+					});
+					
 					if (cur.getCenterY() < temp.getCenterY()) {
 						FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
-							service.swapCircle(cur, temp); // code to update UI...
-							cur.setFill(prev);
-						}, /* return value from task: */ null);
-						Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
-						updateUITask.get(); // block thread until work complete:
+							service.swapCircle(cur, temp); 
+							temp.setFill(green);
+						}, null);
+						Platform.runLater(updateUITask); 
+						updateUITask.get(); 
 						delay();
 					}
 					delay();
+					Platform.runLater(() -> {
+						temp.setFill(prev);
+					});
 				}
+				Platform.runLater(() -> {
+					cur.setFill(prev);
+				});
 			}
 		}
 	}
