@@ -24,7 +24,7 @@ public class BucketSort extends SortTask {
 	private SequentialTransition sq = new SequentialTransition();
 	
 	public BucketSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay * 5, curGraphType, pane, service);
+		super(size, delay, curGraphType, pane, service);
 	}
 
 	private int getBucket(double h, double maxHeight, int bucketNumber) {
@@ -105,7 +105,7 @@ public class BucketSort extends SortTask {
 				}
 //				pt.play();
 				sq.getChildren().add(pt);
-				sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 3)));
+				sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 2)));
 			}
 			delay();
 			sq.play();

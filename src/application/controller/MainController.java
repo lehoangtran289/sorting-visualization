@@ -83,7 +83,7 @@ public class MainController implements Initializable {
 			delay = newVal.intValue();
 			delayLabel.setText("Delay: " + delay + " ms");
 			if (oldVal != newVal && isStart == 1) { // bind delay value change with SortTask
-				sortTask.setDelay(delay);
+				sortTask.setDelay(delay * 3);
 			}
 		});
 

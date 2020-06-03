@@ -56,11 +56,11 @@ public class SelectionSort extends SortTask {
 				
 				Rectangle min2 = min;
 				FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
-					service.swapRectangle(cur, min2); // code to update UI...
+					service.swapRectangle(cur, min2); 
 					cur.setFill(prev);
-				}, /* return value from task: */ null);
-				Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
-				updateUITask.get(); // block thread until work complete:
+				}, null);
+				Platform.runLater(updateUITask); 
+				updateUITask.get(); 
 
 //				delay();
 			}

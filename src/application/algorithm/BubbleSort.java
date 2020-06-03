@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 public class BubbleSort extends SortTask {
 
 	public BubbleSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay * 3, curGraphType, pane, service);
+		super(size, delay, curGraphType, pane, service);
 	}
 
 	@Override

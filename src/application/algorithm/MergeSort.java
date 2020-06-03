@@ -22,7 +22,7 @@ public class MergeSort extends SortTask {
 	private double xpart = pane.getPrefWidth() / size;
 
 	public MergeSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay * 4, curGraphType, pane, service);
+		super(size, delay, curGraphType, pane, service);
 	}
 
 	@Override
@@ -96,6 +96,7 @@ public class MergeSort extends SortTask {
 				currLeft.setFill(Color.DODGERBLUE);
 				currRight.setFill(Color.DODGERBLUE);
 			});
+			delay();
 		}
 		
 		merged.addAll(left.subList(leftIndex, left.size()));
@@ -111,6 +112,7 @@ public class MergeSort extends SortTask {
 			Platform.runLater(updateUITask); 
 			updateUITask.get(); 
 		}
+		delay();
 		delay();
 		
 		// add merged rectangle to pane
