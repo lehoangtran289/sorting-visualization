@@ -53,6 +53,7 @@ public class MergeSort extends SortTask {
 	}
 
 	public List<Shape> merged(List<Shape> left, List<Shape> right) throws InterruptedException, ExecutionException {
+		System.out.println(delay);
 		List<Integer> idList = new ArrayList<>();
 		left.forEach(i -> idList.add(Integer.parseInt(i.getId())));
 		right.forEach(i -> idList.add(Integer.parseInt(i.getId())));

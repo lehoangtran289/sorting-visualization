@@ -156,6 +156,8 @@ public class MainController implements Initializable {
 			sortTask.cancel();
 			isStart = 0;
 		}
+		
+		delay *= 3;
 
 		// TODO: Switch different algorithms here
 		switch (curAlgo) {
