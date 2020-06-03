@@ -18,11 +18,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class MergeSort extends SortTask {
-	
+
 	private double xpart = pane.getPrefWidth() / size;
 
 	public MergeSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay, curGraphType, pane, service);
+		super(size, delay * 2, curGraphType, pane, service);
 	}
 
 	@Override
@@ -53,23 +53,22 @@ public class MergeSort extends SortTask {
 	}
 
 	public List<Shape> merged(List<Shape> left, List<Shape> right) throws InterruptedException, ExecutionException {
-		System.out.println(delay);
 		List<Integer> idList = new ArrayList<>();
 		left.forEach(i -> idList.add(Integer.parseInt(i.getId())));
 		right.forEach(i -> idList.add(Integer.parseInt(i.getId())));
 
 		// list of ids to update ui of each rectangle
 		List<Integer> ids = idList.stream().sorted().collect(Collectors.toList());
-		System.out.println(ids);
+		System.out.println("ids list: " + ids);
 
 		// -- merge logic
 		int leftIndex = 0;
 		int rightIndex = 0;
 		List<Shape> merged = new ArrayList<>();
-		
+
 		left.forEach(shape -> shape.setFill(Color.DODGERBLUE));
 		right.forEach(shape -> shape.setFill(Color.DODGERBLUE));
-		
+
 		while (leftIndex < left.size() && rightIndex < right.size()) {
 			Shape currLeft = left.get(leftIndex);
 			Shape currRight = right.get(rightIndex);
@@ -77,21 +76,21 @@ public class MergeSort extends SortTask {
 				currLeft.setFill(Constants.RED);
 				currRight.setFill(Constants.RED);
 			});
-			
+
 			if (curGraphType == Constants.BARS)
 				if (((Rectangle) currLeft).getHeight() < ((Rectangle) currRight).getHeight()) {
 					merged.add(left.get(leftIndex++));
 				} else {
 					merged.add(right.get(rightIndex++));
 				}
-			
+
 			if (curGraphType == Constants.DOTS)
 				if (((Circle) currLeft).getCenterY() > ((Circle) currRight).getCenterY()) {
 					merged.add(left.get(leftIndex++));
 				} else {
 					merged.add(right.get(rightIndex++));
 				}
-			
+
 			delay();
 			Platform.runLater(() -> {
 				currLeft.setFill(Color.DODGERBLUE);
@@ -99,12 +98,15 @@ public class MergeSort extends SortTask {
 			});
 			delay();
 		}
-		
+
 		merged.addAll(left.subList(leftIndex, left.size()));
 		merged.addAll(right.subList(rightIndex, right.size()));
+		merged.forEach(i -> System.out.println(i));
+		System.out.println("----");
 
 		// done merge --> update ui by clearing pane in range and adding "merged"
 		// clear pane
+		
 		for (int i = 0; i < merged.size(); i++) {
 			int j = i;
 			FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
@@ -138,6 +140,17 @@ public class MergeSort extends SortTask {
 			});
 		}
 		delay();
+		
+//		ParallelTransition pt = new ParallelTransition();
+//		for (int i = 0; i < merged.size(); i++) {
+//			Shape temp = merged.get(i);
+//			TranslateTransition tt = new TranslateTransition(Duration.millis(delay * 2), temp);
+//			tt.setToX(ids.get(i) * xpart);
+//			pt.getChildren().add(tt);
+//		}
+//		
+//		pt.play();
+//		delay();
 
 		return merged;
 	}

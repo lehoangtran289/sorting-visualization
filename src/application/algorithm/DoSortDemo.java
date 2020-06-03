@@ -51,10 +51,6 @@ public class DoSortDemo extends Task<Void> {
 		if (isCancelled())
 			return null;
 
-		Color prev = Color.rgb(157, 133, 255);
-		Paint green = Color.LIGHTGREEN;
-		Paint red = Color.INDIANRED;
-		
 		double xpart = pane.getPrefWidth() / size;
 
 		if (curGraphType == Constants.BARS) {

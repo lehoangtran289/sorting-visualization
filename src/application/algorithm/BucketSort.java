@@ -13,8 +13,6 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -22,9 +20,9 @@ import javafx.util.Duration;
 public class BucketSort extends SortTask {
 	private double xpart = pane.getPrefWidth() / size;
 	private SequentialTransition sq = new SequentialTransition();
-	
+
 	public BucketSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay, curGraphType, pane, service);
+		super(size, delay * 2, curGraphType, pane, service);
 	}
 
 	private int getBucket(double h, double maxHeight, int bucketNumber) {
@@ -33,10 +31,9 @@ public class BucketSort extends SortTask {
 
 	@Override
 	public void doSort() throws InterruptedException, ExecutionException {
-		Paint red = (Color) Constants.RED;
 		double maxHeight = pane.getPrefHeight() + 10;
 		final int bucketNumber = (int) Math.sqrt(size);
-		
+
 		if (curGraphType == Constants.BARS) { // if current graph is bars
 
 			// initialize buckets
@@ -49,7 +46,7 @@ public class BucketSort extends SortTask {
 				Rectangle cur = service.getRect(pane, i);
 				double h = cur.getHeight();
 				buckets.get(getBucket(h, maxHeight, bucketNumber)).add(cur);
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 					cur.setFill(Constants.paintArray[getBucket(h, maxHeight, bucketNumber)]);
 				});
 				delay();
@@ -84,15 +81,9 @@ public class BucketSort extends SortTask {
 			// Sort each bucket and update UI
 			pos = 0;
 			for (List<Rectangle> bkt : buckets) {
-//				System.out.println(" ---- ");
-//				bkt.forEach(i -> System.out.println(i));
-
-				bkt.sort((r1, r2) -> {
+				bkt.sort((r1, r2) -> {	// sort bucket
 					return (int) (r1.getHeight() - r2.getHeight());
 				});
-
-//				System.out.println("after sort");
-//				bkt.forEach(i -> System.out.println(i));
 
 				ParallelTransition pt = new ParallelTransition();
 
@@ -103,7 +94,6 @@ public class BucketSort extends SortTask {
 					pt.getChildren().add(tt);
 					pos++;
 				}
-//				pt.play();
 				sq.getChildren().add(pt);
 				sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 2)));
 			}
@@ -124,7 +114,7 @@ public class BucketSort extends SortTask {
 				Circle cur = service.getCircle(pane, i);
 				double h = maxHeight - cur.getCenterY();
 				buckets.get(getBucket(h, maxHeight, bucketNumber)).add(cur);
-				Platform.runLater(()->{
+				Platform.runLater(() -> {
 					cur.setFill(Constants.paintArray[getBucket(h, maxHeight, bucketNumber)]);
 				});
 				delay();
@@ -157,31 +147,51 @@ public class BucketSort extends SortTask {
 
 			// Sort each bucket and update UI
 			pos = 0;
-			int pos1 = 0;
 			for (List<Circle> bkt : buckets) {
-				bkt.sort((c1, c2) -> {
-					return (int) (c2.getCenterY() - c1.getCenterY());
+				bkt.sort((r1, r2) -> {		// sort bucket
+					return (int) (-r1.getCenterY() + r2.getCenterY());
 				});
-				for (int i = 0; i < bkt.size(); ++i) { // remove circles in pane which are in each bucket
-					Circle newCircle = bkt.get(i);
-					Platform.runLater(() -> {
-						pane.getChildren().remove(newCircle);
-					});
+				ParallelTransition pt = new ParallelTransition();
+
+				for (int i = 0; i < bkt.size(); ++i) {
+					Circle newRect = bkt.get(i);
+					TranslateTransition tt = new TranslateTransition(Duration.millis(delay * 3), newRect);
+					tt.setByX(pos * xpart - newRect.getCenterX() + newRect.getRadius());
+					pt.getChildren().add(tt);
 					pos++;
 				}
-				delay();
-				for (int i = 0; i < bkt.size(); ++i) { // add sorted circles in each buckets to pane
-					Circle newCircle = bkt.get(i);
-					newCircle.setCenterX(xpart * pos1 + newCircle.getRadius());
-					Platform.runLater(() -> {
-						pane.getChildren().add(newCircle);
-					});
-					pos1++;
-					delay();
-				}
-				delay();
+				sq.getChildren().add(pt);
+				sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 2)));
 			}
+			delay();
+			sq.play();
+			delay();
 		}
 	}
-
 }
+
+//			pos = 0;
+//			int pos1 = 0;
+//			for (List<Circle> bkt : buckets) {
+//				bkt.sort((c1, c2) -> {
+//					return (int) (c2.getCenterY() - c1.getCenterY());
+//				});
+//				for (int i = 0; i < bkt.size(); ++i) { // remove circles in pane which are in each bucket
+//					Circle newCircle = bkt.get(i);
+//					Platform.runLater(() -> {
+//						pane.getChildren().remove(newCircle);
+//					});
+//					pos++;
+//				}
+//				delay();
+//				for (int i = 0; i < bkt.size(); ++i) { // add sorted circles in each buckets to pane
+//					Circle newCircle = bkt.get(i);
+//					newCircle.setCenterX(xpart * pos1 + newCircle.getRadius());
+//					Platform.runLater(() -> {
+//						pane.getChildren().add(newCircle);
+//					});
+//					pos1++;
+//					delay();
+//				}
+//				delay();
+//			}

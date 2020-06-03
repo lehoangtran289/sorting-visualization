@@ -17,7 +17,7 @@ public class SelectionSort extends SortTask {
 	
 	// constructor from parent class
 	public SelectionSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay, curGraphType, pane, service);
+		super(size, delay * 2, curGraphType, pane, service);
 	}
 	
 	// NOTE: modify UI must be done in Platform.runLater()

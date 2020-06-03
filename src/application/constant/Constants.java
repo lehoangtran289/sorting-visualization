@@ -15,6 +15,6 @@ public class Constants {
 	public final static Paint RED = Color.INDIANRED;
 	public final static Paint GREEN = Color.LIGHTGREEN;
 
-	public final static Paint[] paintArray = { Color.INDIANRED, Color.LIGHTSALMON, Color.YELLOW, Color.GREEN,
+	public final static Paint[] paintArray = { Color.INDIANRED, Color.LIGHTSALMON, Color.YELLOW, Color.LIGHTGREEN,
 			Color.CORNFLOWERBLUE, Color.INDIGO, Color.PALEVIOLETRED, Color.MAGENTA, Color.GRAY, Color.PINK };
 }

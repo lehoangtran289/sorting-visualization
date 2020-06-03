@@ -28,7 +28,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
 public class MainController implements Initializable {
-	// FXML components
 	@FXML
 	private Slider delaySlider;
 	@FXML
@@ -83,7 +82,7 @@ public class MainController implements Initializable {
 			delay = newVal.intValue();
 			delayLabel.setText("Delay: " + delay + " ms");
 			if (oldVal != newVal && isStart == 1) { // bind delay value change with SortTask
-				sortTask.setDelay(delay * 3);
+				sortTask.setDelay(delay * 2);
 			}
 		});
 
@@ -156,10 +155,7 @@ public class MainController implements Initializable {
 			sortTask.cancel();
 			isStart = 0;
 		}
-		
-		delay *= 3;
 
-		// TODO: Switch different algorithms here
 		switch (curAlgo) {
 		case Constants.SELECTION:
 			sortTask = new SelectionSort(arraySize, delay, curGraphType, mainPane, service); // call Sort Task
