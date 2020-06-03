@@ -12,11 +12,13 @@ import application.service.MainService;
 import application.task.SortTask;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class MergeSort extends SortTask {
+	
 	private double xpart = pane.getPrefWidth() / size;
 
 	public MergeSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
@@ -63,27 +65,43 @@ public class MergeSort extends SortTask {
 		int leftIndex = 0;
 		int rightIndex = 0;
 		List<Shape> merged = new ArrayList<>();
-
+		
+		left.forEach(shape -> shape.setFill(Color.DODGERBLUE));
+		right.forEach(shape -> shape.setFill(Color.DODGERBLUE));
+		
 		while (leftIndex < left.size() && rightIndex < right.size()) {
+			Shape currLeft = left.get(leftIndex);
+			Shape currRight = right.get(rightIndex);
+			Platform.runLater(() -> {
+				currLeft.setFill(Constants.RED);
+				currRight.setFill(Constants.RED);
+			});
+			
 			if (curGraphType == Constants.BARS)
-				if (((Rectangle) left.get(leftIndex)).getHeight() < ((Rectangle) right.get(rightIndex)).getHeight()) {
+				if (((Rectangle) currLeft).getHeight() < ((Rectangle) currRight).getHeight()) {
 					merged.add(left.get(leftIndex++));
 				} else {
 					merged.add(right.get(rightIndex++));
 				}
+			
 			if (curGraphType == Constants.DOTS)
-				if (((Circle) left.get(leftIndex)).getCenterY() > ((Circle) right.get(rightIndex)).getCenterY()) {
+				if (((Circle) currLeft).getCenterY() > ((Circle) currRight).getCenterY()) {
 					merged.add(left.get(leftIndex++));
 				} else {
 					merged.add(right.get(rightIndex++));
 				}
-
+			
+			delay();
+			Platform.runLater(() -> {
+				currLeft.setFill(Color.DODGERBLUE);
+				currRight.setFill(Color.DODGERBLUE);
+			});
 		}
+		
 		merged.addAll(left.subList(leftIndex, left.size()));
 		merged.addAll(right.subList(rightIndex, right.size()));
 
 		// done merge --> update ui by clearing pane in range and adding "merged"
-		
 		// clear pane
 		for (int i = 0; i < merged.size(); i++) {
 			int j = i;
@@ -93,6 +111,7 @@ public class MergeSort extends SortTask {
 			Platform.runLater(updateUITask); 
 			updateUITask.get(); 
 		}
+		delay();
 		
 		// add merged rectangle to pane
 		for (int i = 0; i < merged.size(); i++) {
@@ -111,6 +130,9 @@ public class MergeSort extends SortTask {
 			updateUITask.get(); 
 
 			delay();
+			Platform.runLater(() -> {
+				temp.setFill(Constants.PRIMARY);
+			});
 		}
 		delay();
 
