@@ -9,6 +9,7 @@ import application.constant.Constants;
 import application.service.MainService;
 import application.task.SortTask;
 import javafx.animation.ParallelTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
@@ -20,7 +21,8 @@ import javafx.util.Duration;
 
 public class BucketSort extends SortTask {
 	private double xpart = pane.getPrefWidth() / size;
-
+	private SequentialTransition sq = new SequentialTransition();
+	
 	public BucketSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
 		super(size, delay * 5, curGraphType, pane, service);
 	}
@@ -32,9 +34,9 @@ public class BucketSort extends SortTask {
 	@Override
 	public void doSort() throws InterruptedException, ExecutionException {
 		Paint red = (Color) Constants.RED;
-		double maxHeight = pane.getPrefHeight();
+		double maxHeight = pane.getPrefHeight() + 10;
 		final int bucketNumber = (int) Math.sqrt(size);
-
+		
 		if (curGraphType == Constants.BARS) { // if current graph is bars
 
 			// initialize buckets
@@ -45,11 +47,11 @@ public class BucketSort extends SortTask {
 			// Distribute rectangles
 			for (int i = 0; i < size; i++) {
 				Rectangle cur = service.getRect(pane, i);
-				Platform.runLater(() -> {
-					cur.setFill(red);
-				});
 				double h = cur.getHeight();
 				buckets.get(getBucket(h, maxHeight, bucketNumber)).add(cur);
+				Platform.runLater(()->{
+					cur.setFill(Constants.paintArray[getBucket(h, maxHeight, bucketNumber)]);
+				});
 				delay();
 			}
 
@@ -82,15 +84,15 @@ public class BucketSort extends SortTask {
 			// Sort each bucket and update UI
 			pos = 0;
 			for (List<Rectangle> bkt : buckets) {
-				System.out.println(" ---- ");
-				bkt.forEach(i -> System.out.println(i));
+//				System.out.println(" ---- ");
+//				bkt.forEach(i -> System.out.println(i));
 
 				bkt.sort((r1, r2) -> {
 					return (int) (r1.getHeight() - r2.getHeight());
 				});
 
-				System.out.println("after sort");
-				bkt.forEach(i -> System.out.println(i));
+//				System.out.println("after sort");
+//				bkt.forEach(i -> System.out.println(i));
 
 				ParallelTransition pt = new ParallelTransition();
 
@@ -101,11 +103,12 @@ public class BucketSort extends SortTask {
 					pt.getChildren().add(tt);
 					pos++;
 				}
-				pt.play();
-				delay();
-				delay();
+//				pt.play();
+				sq.getChildren().add(pt);
+				sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 3)));
 			}
 			delay();
+			sq.play();
 			delay();
 		}
 
@@ -121,6 +124,9 @@ public class BucketSort extends SortTask {
 				Circle cur = service.getCircle(pane, i);
 				double h = maxHeight - cur.getCenterY();
 				buckets.get(getBucket(h, maxHeight, bucketNumber)).add(cur);
+				Platform.runLater(()->{
+					cur.setFill(Constants.paintArray[getBucket(h, maxHeight, bucketNumber)]);
+				});
 				delay();
 			}
 
