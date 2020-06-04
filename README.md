@@ -7,4 +7,4 @@ OOLT mini project
 3. Merge Sort
 4. Bucket Sort
 
-![image](https://user-images.githubusercontent.com/56795731/83746307-1cac3680-a689-11ea-913e-9c3ba88bc63d.png)
+![image](https://user-images.githubusercontent.com/56795731/83746682-a65c0400-a689-11ea-881f-da4f62378c62.png)
