@@ -7,6 +7,7 @@ import application.constant.Constants;
 import application.service.MainService;
 import application.task.SortTask;
 import javafx.application.Platform;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -16,8 +17,8 @@ import javafx.scene.shape.Rectangle;
 public class SelectionSort extends SortTask {
 	
 	// constructor from parent class
-	public SelectionSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay * 2, curGraphType, pane, service);
+	public SelectionSort(int size, int delay, String curGraphType, Pane pane, MainService service, TextArea textArea) {
+		super(size, delay * 2, curGraphType, pane, service, textArea);
 	}
 	
 	// NOTE: modify UI must be done in Platform.runLater()
@@ -26,6 +27,9 @@ public class SelectionSort extends SortTask {
 		Color prev = (Color) Constants.PRIMARY;
 		Paint green = (Color) Constants.GREEN;
 		Paint red = (Color) Constants.RED;
+		
+		String prevStr = textArea.getText();
+		textArea.setText(prevStr + "\n---------------\nSorting . . .");
 
 		if (curGraphType == Constants.BARS) {		// if current graph is bars
 			for (int i = 0; i < size - 1; i++) {
@@ -99,6 +103,7 @@ public class SelectionSort extends SortTask {
 //				delay();
 			}
 		}
+		textArea.setText(prevStr + "\n---------------\nSorting Done!");
 	}
 
 }

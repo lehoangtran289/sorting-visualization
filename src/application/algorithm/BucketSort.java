@@ -12,6 +12,7 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -20,9 +21,10 @@ import javafx.util.Duration;
 public class BucketSort extends SortTask {
 	private double xpart = pane.getPrefWidth() / size;
 	private SequentialTransition sq = new SequentialTransition();
+	private String prevStr = textArea.getText();
 
-	public BucketSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay * 2, curGraphType, pane, service);
+	public BucketSort(int size, int delay, String curGraphType, Pane pane, MainService service, TextArea textArea) {
+		super(size, delay * 2, curGraphType, pane, service, textArea);
 	}
 
 	private int getBucket(double h, double maxHeight, int bucketNumber) {
@@ -34,6 +36,8 @@ public class BucketSort extends SortTask {
 		double maxHeight = pane.getPrefHeight() + 10;
 		final int bucketNumber = (int) Math.sqrt(size);
 
+		textArea.setText(prevStr + "\n---------------\nSorting . . . ");
+
 		if (curGraphType == Constants.BARS) { // if current graph is bars
 
 			// initialize buckets
@@ -42,6 +46,9 @@ public class BucketSort extends SortTask {
 				buckets.add(new ArrayList<>());
 
 			// Distribute rectangles
+			Platform.runLater(() -> {
+				textArea.setText(prevStr + "\n---------------\nDistribute to " + (buckets.size() - 1) + " buckets . . . ");
+			});
 			for (int i = 0; i < size; i++) {
 				Rectangle cur = service.getRect(pane, i);
 				double h = cur.getHeight();
@@ -62,6 +69,9 @@ public class BucketSort extends SortTask {
 			}
 
 			// Place buckets to pane by order
+			Platform.runLater(() -> {
+				textArea.setText(prevStr + "\n---------------\nPlace buckets in order . . . ");
+			});
 			int pos = 0;
 			for (List<Rectangle> bkt : buckets) {
 				for (int i = 0; i < bkt.size(); ++i) {
@@ -79,9 +89,12 @@ public class BucketSort extends SortTask {
 			}
 
 			// Sort each bucket and update UI
+			Platform.runLater(() -> {
+				textArea.setText(prevStr + "\n---------------\nSort each buckets . . . ");
+			});
 			pos = 0;
 			for (List<Rectangle> bkt : buckets) {
-				bkt.sort((r1, r2) -> {	// sort bucket
+				bkt.sort((r1, r2) -> { // sort bucket
 					return (int) (r1.getHeight() - r2.getHeight());
 				});
 
@@ -95,7 +108,8 @@ public class BucketSort extends SortTask {
 					pos++;
 				}
 				sq.getChildren().add(pt);
-				sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 2)));
+				if (bkt != buckets.get(buckets.size() - 1))
+					sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 2)));
 			}
 			delay();
 			sq.play();
@@ -110,6 +124,9 @@ public class BucketSort extends SortTask {
 				buckets.add(new ArrayList<>());
 
 			// Distribute circle
+			Platform.runLater(() -> {
+				textArea.setText(prevStr + "\n---------------\nDistribute to " + (buckets.size() - 1) + " buckets . . . ");
+			});
 			for (int i = 0; i < size; i++) {
 				Circle cur = service.getCircle(pane, i);
 				double h = maxHeight - cur.getCenterY();
@@ -130,6 +147,9 @@ public class BucketSort extends SortTask {
 			}
 
 			// Place buckets to pane by order
+			Platform.runLater(() -> {
+				textArea.setText(prevStr + "\n---------------\nPlace buckets in order . . . ");
+			});
 			int pos = 0;
 			for (List<Circle> bkt : buckets) {
 				for (int i = 0; i < bkt.size(); ++i) {
@@ -146,9 +166,12 @@ public class BucketSort extends SortTask {
 			}
 
 			// Sort each bucket and update UI
+			Platform.runLater(() -> {
+				textArea.setText(prevStr + "\n---------------\nSort each buckets . . . ");
+			});
 			pos = 0;
 			for (List<Circle> bkt : buckets) {
-				bkt.sort((r1, r2) -> {		// sort bucket
+				bkt.sort((r1, r2) -> { // sort bucket
 					return (int) (-r1.getCenterY() + r2.getCenterY());
 				});
 				ParallelTransition pt = new ParallelTransition();
@@ -161,12 +184,17 @@ public class BucketSort extends SortTask {
 					pos++;
 				}
 				sq.getChildren().add(pt);
-				sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 2)));
+				if (bkt != buckets.get(buckets.size() - 1))
+					sq.getChildren().add(new TranslateTransition(Duration.millis(delay * 2)));
 			}
 			delay();
 			sq.play();
 			delay();
 		}
+
+		sq.setOnFinished((e) -> {
+			textArea.setText(prevStr + "\n---------------\nSorting Done");
+		});
 	}
 }
 

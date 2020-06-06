@@ -11,6 +11,7 @@ import application.constant.Constants;
 import application.service.MainService;
 import application.task.SortTask;
 import javafx.application.Platform;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -18,15 +19,17 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class MergeSort extends SortTask {
-
 	private double xpart = pane.getPrefWidth() / size;
+	private String prevStr = textArea.getText();
 
-	public MergeSort(int size, int delay, String curGraphType, Pane pane, MainService service) {
-		super(size, delay * 2, curGraphType, pane, service);
+	public MergeSort(int size, int delay, String curGraphType, Pane pane, MainService service, TextArea textArea) {
+		super(size, delay * 2, curGraphType, pane, service, textArea);
 	}
 
 	@Override
 	public void doSort() throws InterruptedException, ExecutionException {
+		textArea.setText(prevStr + "\n---------------\nSorting . . . ");
+
 		if (curGraphType == Constants.BARS) {
 			List<Shape> list = new ArrayList<>(); // init a list of current rectangles in pane
 			IntStream.range(0, size).forEach(i -> {
@@ -42,6 +45,7 @@ public class MergeSort extends SortTask {
 			});
 			sorted(list); // call sort
 		}
+		textArea.setText(prevStr + "\n---------------\nSorting Done . . . ");
 	}
 
 	public List<Shape> sorted(List<Shape> list) throws InterruptedException, ExecutionException {
@@ -70,6 +74,9 @@ public class MergeSort extends SortTask {
 		right.forEach(shape -> shape.setFill(Color.DODGERBLUE));
 
 		while (leftIndex < left.size() && rightIndex < right.size()) {
+			Platform.runLater(() -> {
+				textArea.setText(prevStr + "\n---------------\nComparing . . . ");
+			});
 			Shape currLeft = left.get(leftIndex);
 			Shape currRight = right.get(rightIndex);
 			Platform.runLater(() -> {
@@ -106,18 +113,20 @@ public class MergeSort extends SortTask {
 
 		// done merge --> update ui by clearing pane in range and adding "merged"
 		// clear pane
-		
+		Platform.runLater(() -> {
+			textArea.setText(prevStr + "\n---------------\nMerging . . . ");
+		});
 		for (int i = 0; i < merged.size(); i++) {
 			int j = i;
 			FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
 				pane.getChildren().remove(merged.get(j));
 			}, null);
-			Platform.runLater(updateUITask); 
-			updateUITask.get(); 
+			Platform.runLater(updateUITask);
+			updateUITask.get();
 		}
 		delay();
 		delay();
-		
+
 		// add merged rectangle to pane
 		for (int i = 0; i < merged.size(); i++) {
 			Shape temp = merged.get(i); // get item in merged list
@@ -131,8 +140,8 @@ public class MergeSort extends SortTask {
 //				pane.getChildren().remove(merged.get(j));
 				pane.getChildren().add(temp);
 			}, null);
-			Platform.runLater(updateUITask); 
-			updateUITask.get(); 
+			Platform.runLater(updateUITask);
+			updateUITask.get();
 
 			delay();
 			Platform.runLater(() -> {
@@ -140,7 +149,7 @@ public class MergeSort extends SortTask {
 			});
 		}
 		delay();
-		
+
 //		ParallelTransition pt = new ParallelTransition();
 //		for (int i = 0; i < merged.size(); i++) {
 //			Shape temp = merged.get(i);

@@ -96,6 +96,7 @@ public class MainController implements Initializable {
 			if (prevSize != arraySize && size.contains(arraySize)) { // reset pane if array size change
 				sizeLabel.setText("Array size: " + arraySize);
 				service.generate(mainPane, arraySize, curGraphType); // generate new pane
+				textArea.setText(algoInfo.get(this.curAlgo));
 				isStart = 0;
 				if (sortTask != null) // if current sort is running -> cancel that
 					sortTask.cancel();
@@ -138,6 +139,7 @@ public class MainController implements Initializable {
 		isStart = 0;
 		if (sortTask != null) // if current sort is running -> cancel that
 			sortTask.cancel();
+		textArea.setText(algoInfo.get(this.curAlgo));
 	}
 
 	// CREDIT BUTTON
@@ -158,20 +160,20 @@ public class MainController implements Initializable {
 
 		switch (curAlgo) {
 		case Constants.SELECTION:
-			sortTask = new SelectionSort(arraySize, delay, curGraphType, mainPane, service); // call Sort Task
+			sortTask = new SelectionSort(arraySize, delay, curGraphType, mainPane, service, textArea); // call Sort Task
 //			sortTask = new DoSortDemo(arraySize, delay, curGraphType, mainPane, service);
 			break;
 		
 		case Constants.BUBBLE:
-			sortTask = new BubbleSort(arraySize, delay, curGraphType, mainPane, service);
+			sortTask = new BubbleSort(arraySize, delay, curGraphType, mainPane, service, textArea);
 			break;
 			
 		case Constants.BUCKET:
-			sortTask = new BucketSort(arraySize, delay, curGraphType, mainPane, service);
+			sortTask = new BucketSort(arraySize, delay, curGraphType, mainPane, service, textArea);
 			break;
 			
 		case Constants.MERGE:
-			sortTask = new MergeSort(arraySize, delay, curGraphType, mainPane, service);
+			sortTask = new MergeSort(arraySize, delay, curGraphType, mainPane, service, textArea);
 			break;
 
 		default:
