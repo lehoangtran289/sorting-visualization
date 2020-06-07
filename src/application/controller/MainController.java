@@ -93,6 +93,7 @@ public class MainController implements Initializable {
 		sizeSlider.valueProperty().addListener((observable, oldVal, newVal) -> { // add listener to size slider
 			int prevSize = arraySize;
 			arraySize = newVal.intValue() / 10 * 10;
+			sortButton.setDisable(false);
 			if (prevSize != arraySize && size.contains(arraySize)) { // reset pane if array size change
 				sizeLabel.setText("Array size: " + arraySize);
 				service.generate(mainPane, arraySize, curGraphType); // generate new pane
@@ -116,6 +117,7 @@ public class MainController implements Initializable {
 
 		// init pane
 		service.generate(mainPane, arraySize, curGraphType);
+		
 	}
 
 	// set algorithm when combobox change
@@ -131,6 +133,8 @@ public class MainController implements Initializable {
 		isStart = 0;
 		if (sortTask != null) // if current sort is running -> cancel that
 			sortTask.cancel();
+		textArea.setText(algoInfo.get(this.curAlgo));
+		sortButton.setDisable(false);
 	}
 
 	// RESET BUTTON
@@ -140,6 +144,7 @@ public class MainController implements Initializable {
 		if (sortTask != null) // if current sort is running -> cancel that
 			sortTask.cancel();
 		textArea.setText(algoInfo.get(this.curAlgo));
+		sortButton.setDisable(false);
 	}
 
 	// CREDIT BUTTON
@@ -153,6 +158,7 @@ public class MainController implements Initializable {
 
 	// SORT BUTTON
 	public void sortButtonClick(ActionEvent e) throws InterruptedException {
+		textArea.setText(algoInfo.get(this.curAlgo));
 		if (sortTask != null) { // if current sort is running -> cancel that
 			sortTask.cancel();
 			isStart = 0;
@@ -189,6 +195,6 @@ public class MainController implements Initializable {
 		Thread thread = new Thread(sortTask); // run thread
 		thread.setDaemon(true);
 		thread.start();
-
+		sortButton.setDisable(true);
 	}
 }
