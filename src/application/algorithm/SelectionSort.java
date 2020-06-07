@@ -34,21 +34,21 @@ public class SelectionSort extends SortTask {
 		if (curGraphType == Constants.BARS) { // if current graph is bars
 			for (int i = 0; i < size; i++) {
 				// reset color
-				for (int k = 0; k <= size - 1; ++k) {
+				for (int k = 0; k < size; ++k) {
 					Rectangle r = service.getRect(pane, k);
 					Platform.runLater(() -> {
 						r.setFill(prev);
 					});
 				}
-				
-				Rectangle cur = service.getRect(pane, i);
+
+				Rectangle cur = service.getRect(pane, i); // current rectangle
 				Platform.runLater(() -> {
 					cur.setFill(green);
 				});
-				
+
 				Rectangle min = service.getRect(pane, i);
 				Rectangle prevMin = min;
-				
+
 				for (int j = i + 1; j < size; j++) {
 					Rectangle temp = service.getRect(pane, j);
 					Platform.runLater(() -> {
@@ -58,7 +58,7 @@ public class SelectionSort extends SortTask {
 					if (min.getHeight() > temp.getHeight()) {
 						if (min != cur) {
 							Rectangle minTemp = min;
-							Platform.runLater( ()->{
+							Platform.runLater(() -> {
 								minTemp.setFill(prev);
 							});
 						}
@@ -77,6 +77,7 @@ public class SelectionSort extends SortTask {
 					}
 					prevMin = min;
 				}
+				delay();
 
 				Rectangle min2 = min;
 				FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
@@ -87,7 +88,7 @@ public class SelectionSort extends SortTask {
 				updateUITask.get();
 
 //				delay();
-				
+
 			}
 			// reset color
 			for (int k = 0; k < size - 1; ++k) {
@@ -100,11 +101,21 @@ public class SelectionSort extends SortTask {
 
 		if (curGraphType == Constants.DOTS) {
 			for (int i = 0; i < size; i++) {
+				// reset color
+				for (int k = 0; k < size; ++k) {
+					Circle r = service.getCircle(pane, k);
+					Platform.runLater(() -> {
+						r.setFill(prev);
+					});
+				}
+
 				Circle cur = service.getCircle(pane, i);
 				Platform.runLater(() -> {
 					cur.setFill(green);
 				});
 				Circle min = service.getCircle(pane, i);
+				Circle prevMin = min;
+
 				for (int j = i + 1; j < size; j++) {
 					Circle temp = service.getCircle(pane, j);
 					Platform.runLater(() -> {
@@ -112,25 +123,78 @@ public class SelectionSort extends SortTask {
 					});
 //					delay();
 					if (min.getCenterY() < temp.getCenterY()) {
+						if (min != cur) {
+							Circle minTemp = min;
+							Platform.runLater(() -> {
+								minTemp.setFill(prev);
+							});
+						}
 						min = temp;
 					}
 					delay();
-					Platform.runLater(() -> {
-						temp.setFill(prev);
-					});
+					if (prevMin == min)
+						Platform.runLater(() -> {
+							temp.setFill(prev);
+						});
+					else {
+						Circle t3 = min;
+						Platform.runLater(() -> {
+							t3.setFill(green);
+						});
+					}
+					prevMin = min;
 				}
-
+				delay();
 				Circle min2 = min;
 				FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
-					service.swapCircle(cur, min2); // code to update UI...
+					service.swapCircle(cur, min2);
 					cur.setFill(prev);
-				}, /* return value from task: */ null);
-				Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
-				updateUITask.get(); // block until work complete:
+				}, null);
+				Platform.runLater(updateUITask);
+				updateUITask.get();
 
 //				delay();
+			}
+			// reset color
+			for (int k = 0; k < size; ++k) {
+				Circle r = service.getCircle(pane, k);
+				Platform.runLater(() -> {
+					r.setFill(prev);
+				});
 			}
 		}
 		textArea.setText(prevStr + "\n---------------\nSorting Done!");
 	}
 }
+
+//for (int i = 0; i < size; i++) {
+//	Circle cur = service.getCircle(pane, i);
+//	Platform.runLater(() -> {
+//		cur.setFill(green);
+//	});
+//	Circle min = service.getCircle(pane, i);
+//	for (int j = i + 1; j < size; j++) {
+//		Circle temp = service.getCircle(pane, j);
+//		Platform.runLater(() -> {
+//			temp.setFill(red);
+//		});
+////		delay();
+//		if (min.getCenterY() < temp.getCenterY()) {
+//			min = temp;
+//		}
+//		delay();
+//		Platform.runLater(() -> {
+//			temp.setFill(prev);
+//		});
+//	}
+//
+//	Circle min2 = min;
+//	FutureTask<Void> updateUITask = new FutureTask<Void>(() -> {
+//		service.swapCircle(cur, min2); // code to update UI...
+//		cur.setFill(prev);
+//	}, /* return value from task: */ null);
+//	Platform.runLater(updateUITask); // submit for execution on FX Application Thread:
+//	updateUITask.get(); // block until work complete:
+//
+////	delay();
+//}
